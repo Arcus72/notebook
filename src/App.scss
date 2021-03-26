@@ -1,0 +1,58 @@
+.App {
+  &__banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__title {
+    color: #fff;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 4.5vw;
+    margin: 0.5vw 1vw;
+    line-height: 4.5vw;
+    font-weight: normal;
+  }
+
+  &__inputHolder {
+    margin-right: 0.3vw;
+    position: relative;
+    height: min-content;
+    background: #525355;
+    border-radius: 3vw;
+    display: flex;
+    align-items: center;
+    padding: 0.5vw 1px;
+    &--focus {
+      background: #fff;
+      input {
+        background: #fff;
+        color: #5f6368;
+      }
+      i {
+        color: #5f6368;
+      }
+    }
+  }
+
+  &__input {
+    margin-right: 1vw;
+    font-size: 2vw;
+    padding: 0.2vw 1px;
+    width: 40vw;
+    border: none;
+    outline: none;
+    background: #525355;
+    color: #fff;
+  }
+  &__searchIcon,
+  &__crossIcon {
+    color: white;
+    padding: 0 1vw;
+    font-size: 2vw;
+  }
+
+  &__line {
+    background: #fff;
+    height: 1px;
+  }
+}

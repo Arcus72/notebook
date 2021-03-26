@@ -5,3 +5,10 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+body {
+  background: #28292c;
+}
+
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');

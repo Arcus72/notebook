@@ -1,0 +1,19 @@
+.NoteCreator {
+  border: 1px #9aa0a6 solid;
+  border-radius: 1vw;
+  width: 450px;
+  margin: 0 auto;
+  &__context {
+    position: relative;
+  }
+  &__contextValue {
+    font-size: 3vw;
+    outline: none;
+  }
+  &__contextPlaceholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 3vw;
+  }
+}
