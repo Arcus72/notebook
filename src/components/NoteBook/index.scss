@@ -7,4 +7,8 @@
   &__category {
     color: #9aa0a6;
   }
+  &__noteDisplay {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

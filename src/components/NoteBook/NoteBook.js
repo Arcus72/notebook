@@ -3,7 +3,7 @@ import NoteCreator from '../NoteCreator/NoteCreator';
 import Note from '../Note/Note';
 import './index.scss';
 
-function NoteBook({ list }) {
+function NoteBook({ list, notesModifier }) {
   const pined = list.filter((note) => {
     return note.isPined === true;
   });
@@ -19,13 +19,13 @@ function NoteBook({ list }) {
         <span className='NoteBook__category'>Przypięte</span>
         <div className='NoteBook__noteDisplay'>
           {pined.map((item) => (
-            <Note key={item.id} data={item} />
+            <Note key={item.id} notesModifier={notesModifier} data={item} />
           ))}
         </div>
         <span className='NoteBook__category'>Inne</span>
         <div className='NoteBook__noteDisplay'>
           {notPined.map((item) => (
-            <Note key={item.id} data={item} />
+            <Note key={item.id} notesModifier={notesModifier} data={item} />
           ))}
         </div>
       </div>

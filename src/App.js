@@ -27,16 +27,53 @@ let listOfNotesFormula = [
   },
 ];
 
+const getFirstFreeId = (list) => {
+  //! nie działa
+  list.forEach((item, index, arr) => {
+    if (arr[index + 1] === undefined) {
+      console.log(item.id + 1);
+      const result = item.id + 1;
+      return result;
+    }
+
+    if (item.id + 1 !== arr[index + 1].id) {
+      console.log(item.id + 1);
+
+      return item.id + 1;
+    }
+  });
+};
+
 const reduce = (state, action) => {
-  switch (action) {
+  const listCopy = [...state];
+  let noteIndex;
+  switch (action.type) {
     case 'setNewNote':
-      return 1;
-    case 'editNote':
-      return 1;
-    case 'deleteNote':
-      return 1;
-    case 'copyNote':
-      return 1;
+      console.log('setNewNote');
+
+      return state;
+    case 'edit':
+      noteIndex = listCopy.findIndex((item) => {
+        return item.id === action.value.id;
+      });
+      listCopy[noteIndex] = action.value.newVersion;
+
+      return listCopy;
+
+    case 'delete':
+      console.log('delete');
+
+      noteIndex = listCopy.findIndex((item) => {
+        return item.id === action.value;
+      });
+      listCopy.splice(noteIndex, 1);
+      return listCopy;
+
+    case 'copy':
+      const index = getFirstFreeId(state);
+      console.log(index);
+
+      return state;
 
     default:
       return state;
@@ -48,7 +85,6 @@ function App() {
   const input = useRef();
   const [isSearching, setIsSearching] = useState(false);
   const [listOfNotes, NotesModifier] = useReducer(reduce, listOfNotesFormula);
-  const ValueContext = createContext();
 
   const changeInputHolderColor = (action) => {
     //! zmień nazwe funkcji
@@ -90,13 +126,11 @@ function App() {
       </div>
       <div className='App__line'></div>
 
-      <ValueContext.Provider value={NotesModifier}>
-        {isSearching ? (
-          <FiltredNotes list={listOfNotes} />
-        ) : (
-          <NoteBook list={listOfNotes} />
-        )}
-      </ValueContext.Provider>
+      {isSearching ? (
+        <FiltredNotes list={listOfNotes} />
+      ) : (
+        <NoteBook notesModifier={NotesModifier} list={listOfNotes} />
+      )}
     </div>
   );
 }
