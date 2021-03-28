@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import './index.scss';
+import { NotesModifierContext } from 'src/App';
 
-function Note({ data, notesModifier }) {
+function Note({ data }) {
+  const { notesModifier, colorList } = useContext(NotesModifierContext);
+
   const pinIconClass = `Note__pinIcon ${
     data.isPined ? 'Note__pinIcon--pined' : ''
   }`;
@@ -15,8 +18,32 @@ function Note({ data, notesModifier }) {
     });
   };
 
+  const changeNoteColor = (color) => {
+    console.log(color);
+    if (color !== data.color) {
+      let dataCopy = data;
+      dataCopy.color = color;
+      notesModifier({
+        type: 'edit',
+        value: { id: data.id, newVersion: dataCopy },
+      });
+    }
+  };
+
+  //! po najechaniu pojawia się nazwa
+  const colorPalette = colorList.map((item, index) => (
+    <span
+      key={index}
+      className={`Note__color ${
+        item.value === data.color ? 'Note__color--current' : ''
+      }`}
+      onClick={() => changeNoteColor(item.value)}
+      style={{ background: item.value }}
+    ></span>
+  ));
+
   return (
-    <div className='Note'>
+    <div style={{ background: data.color }} className='Note'>
       <header className='Note__title'>
         <div className='Note__titleValue'>{data.title}</div>
         {/* ! jeśli jest puste to znika  */}
@@ -33,15 +60,15 @@ function Note({ data, notesModifier }) {
           className='fas fa-trash'
         ></i>
         <i
-          onClick={() => notesModifier({ type: 'copy', value: '' })}
+          onClick={() => notesModifier({ type: 'copy', value: data.id })}
           className='fas fa-copy'
         ></i>
-        <span>
+        <span className='Note__palette'>
           <i
             // onClick={}
             className='fas fa-palette'
           ></i>
-          <div> {/*! dokończ palette*/}</div>
+          <div className='Note__colorContainer'> {colorPalette}</div>
         </span>
       </div>
     </div>

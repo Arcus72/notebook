@@ -16,13 +16,17 @@ function NoteBook({ list, notesModifier }) {
     <div className='NoteBook'>
       <NoteCreator />
       <div className='NoteBook__main'>
-        <span className='NoteBook__category'>Przypięte</span>
+        {pined.length !== 0 && (
+          <span className='NoteBook__category'>Przypięte</span>
+        )}
         <div className='NoteBook__noteDisplay'>
           {pined.map((item) => (
             <Note key={item.id} notesModifier={notesModifier} data={item} />
           ))}
         </div>
-        <span className='NoteBook__category'>Inne</span>
+        {notPined.length !== 0 && (
+          <span className='NoteBook__category'>Inne</span>
+        )}
         <div className='NoteBook__noteDisplay'>
           {notPined.map((item) => (
             <Note key={item.id} notesModifier={notesModifier} data={item} />

@@ -8,40 +8,102 @@ let listOfNotesFormula = [
     id: 1,
     title: 'Kosz',
     context: 'Lorem ipsum',
-    color: '',
+    color: '#28292c',
     isPined: false,
   },
   {
     id: 2,
     title: 'Praca domowa',
     context: '',
-    color: '',
+    color: '#28292c',
     isPined: true,
   },
   {
     id: 3,
     title: '',
     context: 'Lorem ipsum',
-    color: '',
+    color: '#5C2B29',
     isPined: false,
   },
 ];
 
+const colorList = [
+  {
+    name: 'Czarny',
+    value: '#28292c',
+  },
+  {
+    name: 'Czerwony',
+    value: '#5C2B29',
+  },
+  {
+    name: 'Pomarańcz',
+    value: '#614A19',
+  },
+  {
+    name: 'Żółty',
+    value: '#635D19',
+  },
+  {
+    name: 'Zielony',
+    value: '#345920',
+  },
+  {
+    name: 'Morski',
+    value: '#16504B',
+  },
+  {
+    name: 'Niebieski',
+    value: '#2D555E',
+  },
+  {
+    name: 'Ciemny Niebieski',
+    value: '#1E3A5F',
+  },
+  {
+    name: 'Fiolet',
+    value: '#42275E',
+  },
+  {
+    name: 'Róż',
+    value: '#5B2245',
+  },
+  {
+    name: 'Brąz',
+    value: '#442F19',
+  },
+  {
+    name: 'Szary',
+    value: '#3C3F43',
+  },
+];
+
 const getFirstFreeId = (list) => {
-  //! nie działa
-  list.forEach((item, index, arr) => {
+  //! Czy tyle kodu jest potrzebne
+  const idList = list.map((item) => item.id);
+  idList.sort((a, b) => {
+    return a - b;
+  });
+
+  if (idList[0] !== 1 && idList.length === 0) return 1;
+  let result;
+  let isIdFind = false;
+
+  idList.forEach((id, index, arr) => {
+    if (isIdFind) return 1;
+
     if (arr[index + 1] === undefined) {
-      console.log(item.id + 1);
-      const result = item.id + 1;
-      return result;
+      result = id + 1;
+      return 1;
     }
 
-    if (item.id + 1 !== arr[index + 1].id) {
-      console.log(item.id + 1);
-
-      return item.id + 1;
+    if (arr[index + 1] - id !== 1) {
+      isIdFind = true;
+      result = id + 1;
+      return 1;
     }
   });
+  return result;
 };
 
 const reduce = (state, action) => {
@@ -71,20 +133,25 @@ const reduce = (state, action) => {
 
     case 'copy':
       const index = getFirstFreeId(state);
-      console.log(index);
+      noteIndex = listCopy.findIndex((item) => {
+        return item.id === action.value;
+      });
+      const noteCopy = { ...state[noteIndex] };
+      noteCopy.id = index;
 
-      return state;
+      return [...state, noteCopy];
 
     default:
       return state;
   }
 };
 
+export const NotesModifierContext = createContext();
 function App() {
   const inputHolder = useRef();
   const input = useRef();
   const [isSearching, setIsSearching] = useState(false);
-  const [listOfNotes, NotesModifier] = useReducer(reduce, listOfNotesFormula);
+  const [listOfNotes, notesModifier] = useReducer(reduce, listOfNotesFormula);
 
   const changeInputHolderColor = (action) => {
     //! zmień nazwe funkcji
@@ -99,38 +166,45 @@ function App() {
 
   return (
     <div className='App'>
-      <div className='App__banner'>
-        <header className='App__title'>NOTATNIK</header>
-        <div ref={inputHolder} className='App__inputHolder'>
-          <i className='App__searchIcon fas fa-search'></i>
-          <input
-            ref={input}
-            placeholder='Szukaj'
-            onFocus={() =>
-              changeInputHolderColor({ type: 'focus', value: null })
-            }
-            onBlur={(e) => changeInputHolderColor({ type: 'blur', value: e })}
-            className='App__input'
-            type='text'
-          />
-          {isSearching && (
-            <i
-              className='App__crossIcon fas fa-times'
-              onClick={() => {
-                setIsSearching(false);
-                input.current.value = '';
-              }}
-            ></i>
-          )}
+      <NotesModifierContext.Provider
+        value={{
+          colorList: colorList,
+          notesModifier: notesModifier,
+        }}
+      >
+        <div className='App__banner'>
+          <header className='App__title'>NOTATNIK</header>
+          <div ref={inputHolder} className='App__inputHolder'>
+            <i className='App__searchIcon fas fa-search'></i>
+            <input
+              ref={input}
+              placeholder='Szukaj'
+              onFocus={() =>
+                changeInputHolderColor({ type: 'focus', value: null })
+              }
+              onBlur={(e) => changeInputHolderColor({ type: 'blur', value: e })}
+              className='App__input'
+              type='text'
+            />
+            {isSearching && (
+              <i
+                className='App__crossIcon fas fa-times'
+                onClick={() => {
+                  setIsSearching(false);
+                  input.current.value = '';
+                }}
+              ></i>
+            )}
+          </div>
         </div>
-      </div>
-      <div className='App__line'></div>
+        <div className='App__line'></div>
 
-      {isSearching ? (
-        <FiltredNotes list={listOfNotes} />
-      ) : (
-        <NoteBook notesModifier={NotesModifier} list={listOfNotes} />
-      )}
+        {isSearching ? (
+          <FiltredNotes list={listOfNotes} />
+        ) : (
+          <NoteBook notesModifier={notesModifier} list={listOfNotes} />
+        )}
+      </NotesModifierContext.Provider>
     </div>
   );
 }
