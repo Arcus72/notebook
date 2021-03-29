@@ -1,99 +1,119 @@
 $iconColor: #bdc3c7;
 
 .Note {
-  border: 2px solid #9aa0a6;
-  border-radius: 15px;
-  width: 300px;
-  max-height: 200px;
-  color: white;
-  padding: 8px;
-  margin: 8px;
-  &__title {
-    display: flex;
-    padding: 2px;
-  }
-  &__titleValue {
-    width: 100%;
-    font-size: 30px;
-    background: none;
-    border: none;
-  }
-  &__pinIcon {
-    font-size: 30px;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: $iconColor;
-    color: rgba(0, 0, 0, 0);
-    padding: 3px 5px;
-    &:hover {
-      -webkit-text-stroke-width: 0px;
-      -webkit-text-stroke-color: $iconColor;
-      color: #fff;
-    }
-
-    &--pined {
-      -webkit-text-stroke-width: 0px;
-      -webkit-text-stroke-color: $iconColor;
-      color: #fff;
-      &:hover {
-        -webkit-text-stroke-width: 1px;
-        -webkit-text-stroke-color: $iconColor;
-        color: rgba(0, 0, 0, 0);
+   &:hover {
+      .Note {
+         &__pinIcon,
+         &__options i {
+            opacity: 1;
+         }
       }
-    }
-  }
-  &__context {
-    font-size: 24px;
-  }
-  &__options {
-    i {
-      text-align: center;
-      font-size: 20px;
+   }
+   display: flex;
+
+   flex-direction: column;
+   border: 2px solid #9aa0a6;
+   border-radius: 15px;
+   width: 300px;
+   max-height: 200px;
+   color: white;
+   padding: 8px;
+   margin: 8px;
+   justify-content: space-between;
+   &__title {
+      padding: 2px;
+   }
+   &__titleValue {
+      overflow: hidden;
+      width: 100%;
+      font-size: 30px;
+      background: none;
+      border: none;
+      word-wrap: break-word;
+   }
+   &__pinIcon {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      float: right;
+      font-size: 30px;
       -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: $iconColor;
       color: rgba(0, 0, 0, 0);
-      padding: {
-        top: 8px;
-        right: 12px;
-      }
-
+      padding: 0px 5px;
       &:hover {
-        -webkit-text-stroke-width: 0px;
-        -webkit-text-stroke-color: $iconColor;
-        color: #fff;
+         -webkit-text-stroke-width: 0px;
+         -webkit-text-stroke-color: $iconColor;
+         color: #fff;
       }
-    }
-  }
 
-  &__palette {
-    position: relative;
-    &:hover .Note__colorContainer {
-      display: grid;
-    }
-  }
-  $gridSide: 26px;
-  &__colorContainer {
-    background: #202124;
-    position: absolute;
-    bottom: 150%;
-    left: 0;
-    padding: 5px;
-    display: none;
-    grid-template-columns: $gridSide $gridSide $gridSide $gridSide;
-    grid-template-rows: $gridSide $gridSide $gridSide;
-    column-gap: 5px;
-    row-gap: 10px;
-    -webkit-box-shadow: -4px 5px 18px 0px rgba(50, 50, 50, 0.85);
-    -moz-box-shadow: -4px 5px 18px 0px rgba(50, 50, 50, 0.85);
-    box-shadow: -4px 5px 18px 0px rgba(50, 50, 50, 0.85);
-  }
+      &--pined {
+         -webkit-text-stroke-width: 0px;
+         -webkit-text-stroke-color: $iconColor;
+         color: #fff;
+         &:hover {
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: $iconColor;
+            color: rgba(0, 0, 0, 0);
+         }
+      }
+   }
+   &__context {
+      overflow: hidden;
+      font-size: 24px;
+      word-wrap: break-word;
+   }
+   &__options {
+      i {
+         opacity: 0;
+         text-align: center;
+         font-size: 20px;
+         -webkit-text-stroke-width: 1px;
+         -webkit-text-stroke-color: $iconColor;
+         color: rgba(0, 0, 0, 0);
+         transition: opacity 0.3s ease;
+         padding: {
+            top: 8px;
+            right: 12px;
+         }
 
-  &__color {
-    border-radius: 50%;
-    &:hover {
-      border: 2px solid #fff;
-    }
-    &--current {
-      border: 2px solid #fff;
-    }
-  }
+         &:hover {
+            -webkit-text-stroke-width: 0px;
+            -webkit-text-stroke-color: $iconColor;
+            color: #fff;
+         }
+      }
+   }
+
+   &__palette {
+      position: relative;
+      &:hover .Note__colorContainer {
+         display: grid;
+      }
+   }
+   $gridSide: 26px;
+   &__colorContainer {
+      background: #202124;
+      position: absolute;
+      bottom: 150%;
+      left: 0;
+      padding: 5px;
+      display: none;
+      grid-template-columns: $gridSide $gridSide $gridSide $gridSide;
+      grid-template-rows: $gridSide $gridSide $gridSide;
+      column-gap: 5px;
+      row-gap: 10px;
+      -webkit-box-shadow: -4px 5px 18px 0px rgba(50, 50, 50, 0.85);
+      -moz-box-shadow: -4px 5px 18px 0px rgba(50, 50, 50, 0.85);
+      box-shadow: -4px 5px 18px 0px rgba(50, 50, 50, 0.85);
+   }
+
+   &__color {
+      border-radius: 50%;
+      &:hover {
+         border: 2px solid #fff;
+      }
+      &--current {
+         border: 2px solid #fff;
+      }
+   }
 }
