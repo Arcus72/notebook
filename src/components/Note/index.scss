@@ -10,7 +10,6 @@ $iconColor: #bdc3c7;
       }
    }
    display: flex;
-
    flex-direction: column;
    border: 2px solid #9aa0a6;
    border-radius: 15px;
@@ -20,11 +19,15 @@ $iconColor: #bdc3c7;
    padding: 8px;
    margin: 8px;
    justify-content: space-between;
+
+   &__textContainer {
+      overflow: hidden;
+   }
+
    &__title {
       padding: 2px;
    }
    &__titleValue {
-      overflow: hidden;
       width: 100%;
       font-size: 30px;
       background: none;
@@ -58,7 +61,6 @@ $iconColor: #bdc3c7;
       }
    }
    &__context {
-      overflow: hidden;
       font-size: 24px;
       word-wrap: break-word;
    }

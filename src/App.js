@@ -119,9 +119,10 @@ const reduce = (state, action) => {
    let noteCopy;
    switch (action.type) {
       case 'setNewNote':
-         console.log('setNewNote');
+         let newNote = action.value;
+         newNote.id = getFirstFreeId(state);
 
-         return state;
+         return [...state, newNote];
       case 'edit':
          noteIndex = listCopy.findIndex((item) => item.id === action.value.id);
          listCopy[noteIndex] = action.value.newVersion;

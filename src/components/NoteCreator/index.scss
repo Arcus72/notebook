@@ -1,19 +1,52 @@
+@mixin valueStyle {
+   outline: none;
+   width: 100%;
+   font-size: 20px;
+}
+
 .NoteCreator {
-  border: 1px #9aa0a6 solid;
-  border-radius: 1vw;
-  width: 450px;
-  margin: 0 auto;
-  &__context {
-    position: relative;
-  }
-  &__contextValue {
-    font-size: 3vw;
-    outline: none;
-  }
-  &__contextPlaceholder {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 3vw;
-  }
+   border: 1px #9aa0a6 solid;
+   border-radius: 1vw;
+   width: 450px;
+   margin: 0 auto;
+   padding: 5px;
+   color: #fff;
+   &__titleContainer {
+      font-size: 20px;
+      position: relative;
+   }
+
+   &__contextContainer {
+      font-size: 20px;
+      position: relative;
+   }
+
+   &__titleValue {
+      @include valueStyle;
+   }
+
+   &__contextValue {
+      @include valueStyle;
+   }
+
+   &__textHolder {
+      color: #bdc3c7;
+      pointer-events: none;
+      font-size: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+   }
+   &__options {
+      display: flex;
+   }
+   &__rigthOptions {
+      width: 100%;
+      text-align: right;
+   }
+   &__addBtn,
+   &__closeBtn {
+      margin: 0px 5px;
+      cursor: pointer;
+   }
 }

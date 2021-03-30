@@ -6,14 +6,13 @@ function Note({ data }) {
    const { notesModifier, colorList } = useContext(NotesModifierContext);
    const [isOverflow, setIsOverflow] = React.useState(false);
    const pinIconClass = `Note__pinIcon ${data.isPined ? 'Note__pinIcon--pined' : ''}`;
-   const contextValueRef = React.useRef();
+   const textContainerRef = React.useRef();
 
    React.useEffect(() => {
-      //TODO: to samo dla title
-      let i = contextValueRef.current.scrollHeight - contextValueRef.current.getBoundingClientRect().height;
+      // cheking is textContext is overflow and change isOverflow value
+      let i = textContainerRef.current.scrollHeight - textContainerRef.current.getBoundingClientRect().height;
       i = Math.round(i);
-      console.log(i);
-      if (i !== 0) setIsOverflow(true);
+      if (i > 5) setIsOverflow(true);
    }, []);
 
    const changeIsPinedValue = () => {
@@ -47,24 +46,20 @@ function Note({ data }) {
    ));
    //TODO: anime on enter / leave oraz anime move
 
-   //NOTE: Może title i context w jednym div i wtedy ...
    return (
       <div style={{ background: data.color }} className='Note'>
-         <header className='Note__title'>
-            {/* TODO: if(title === "") 2*icon i przełączanie  */}
-            <div className='Note__titleValue'>
-               <div onClick={changeIsPinedValue} className={pinIconClass}>
-                  <i className='fas fa-map-pin'></i>
+         <div ref={textContainerRef} className='Note__textContainer'>
+            <header className='Note__title'>
+               <div className='Note__titleValue'>
+                  <div onClick={changeIsPinedValue} className={pinIconClass}>
+                     <i className='fas fa-map-pin'></i>
+                  </div>
+                  {data.title}
                </div>
-               {data.title}
-            </div>
-         </header>
+            </header>
 
-         <div
-            className='Note__context'
-            ref={contextValueRef}
-            dangerouslySetInnerHTML={{ __html: data.context ? data.context : '<br />' }}
-         ></div>
+            <div className='Note__context' dangerouslySetInnerHTML={{ __html: data.context ? data.context : '<br />' }}></div>
+         </div>
          {isOverflow && <div className='Note__continuationDots'>...</div>}
          <div className='Note__options'>
             <i title='usuń' onClick={() => notesModifier({ type: 'delete', value: data.id })} className='fas fa-trash'></i>
