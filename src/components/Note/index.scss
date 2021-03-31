@@ -10,6 +10,7 @@ $iconColor: #bdc3c7;
       }
    }
    display: flex;
+   display: flex;
    flex-direction: column;
    border: 2px solid #9aa0a6;
    border-radius: 15px;
@@ -83,39 +84,6 @@ $iconColor: #bdc3c7;
             -webkit-text-stroke-color: $iconColor;
             color: #fff;
          }
-      }
-   }
-
-   &__palette {
-      position: relative;
-      &:hover .Note__colorContainer {
-         display: grid;
-      }
-   }
-   $gridSide: 26px;
-   &__colorContainer {
-      background: #202124;
-      position: absolute;
-      bottom: 150%;
-      left: 0;
-      padding: 5px;
-      display: none;
-      grid-template-columns: $gridSide $gridSide $gridSide $gridSide;
-      grid-template-rows: $gridSide $gridSide $gridSide;
-      column-gap: 5px;
-      row-gap: 10px;
-      -webkit-box-shadow: -4px 5px 18px 0px rgba(50, 50, 50, 0.85);
-      -moz-box-shadow: -4px 5px 18px 0px rgba(50, 50, 50, 0.85);
-      box-shadow: -4px 5px 18px 0px rgba(50, 50, 50, 0.85);
-   }
-
-   &__color {
-      border-radius: 50%;
-      &:hover {
-         border: 2px solid #fff;
-      }
-      &--current {
-         border: 2px solid #fff;
       }
    }
 }

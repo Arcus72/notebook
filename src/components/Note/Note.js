@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
 import './index.scss';
 import { NotesModifierContext } from 'src/App';
+import Palette from 'src/components/Palette/Palette';
+
+//TODO: przeanalizuj kod
 
 function Note({ data }) {
-   const { notesModifier, colorList } = useContext(NotesModifierContext);
+   const { notesModifier } = useContext(NotesModifierContext);
    const [isOverflow, setIsOverflow] = React.useState(false);
    const pinIconClass = `Note__pinIcon ${data.isPined ? 'Note__pinIcon--pined' : ''}`;
    const textContainerRef = React.useRef();
@@ -35,17 +38,8 @@ function Note({ data }) {
       }
    };
 
-   const colorPalette = colorList.map((item, index) => (
-      <span
-         title={item.name}
-         key={index}
-         className={`Note__color ${item.value === data.color ? 'Note__color--current' : ''}`}
-         onClick={() => changeNoteColor(item.value)}
-         style={{ background: item.value }}
-      ></span>
-   ));
    //TODO: anime on enter / leave oraz anime move
-
+   //TODO: pzretwórz NoteCreator na notemanage -> edytuj note po kliknięciu
    return (
       <div style={{ background: data.color }} className='Note'>
          <div ref={textContainerRef} className='Note__textContainer'>
@@ -64,10 +58,7 @@ function Note({ data }) {
          <div className='Note__options'>
             <i title='usuń' onClick={() => notesModifier({ type: 'delete', value: data.id })} className='fas fa-trash'></i>
             <i title='kopiuj' onClick={() => notesModifier({ type: 'copy', value: data.id })} className='fas fa-copy'></i>
-            <span className='Note__palette'>
-               <i className='fas fa-palette'></i>
-               <div className='Note__colorContainer'>{colorPalette}</div>
-            </span>
+            <Palette changeNoteColor={changeNoteColor} currentColor={data.color} />
          </div>
       </div>
    );

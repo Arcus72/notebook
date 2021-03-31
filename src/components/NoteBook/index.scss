@@ -1,14 +1,14 @@
 .NoteBook {
-  &__main {
-    margin-top: 5vw;
-    width: 80vw;
-    margin: 0 auto;
-  }
-  &__category {
-    color: #9aa0a6;
-  }
-  &__noteDisplay {
-    display: flex;
-    flex-wrap: wrap;
-  }
+   &__main {
+      margin-top: 5vw;
+      width: 80vw;
+      margin: 0 auto;
+   }
+   &__category {
+      color: #9aa0a6;
+   }
+   &__noteDisplay {
+      display: flex;
+      flex-wrap: wrap;
+   }
 }

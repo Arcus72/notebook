@@ -136,16 +136,14 @@ const reduce = (state, action) => {
          return [action.value.newVersion, ...listCopy];
 
       case 'delete':
-         noteIndex = listCopy.findIndex((item) => item.id === action.value.id);
+         noteIndex = listCopy.findIndex((item) => item.id === action.value);
          listCopy.splice(noteIndex, 1);
          return listCopy;
 
       case 'copy':
-         const index = getFirstFreeId(state);
-         noteIndex = listCopy.findIndex((item) => item.id === action.value.id);
+         noteIndex = listCopy.findIndex((item) => item.id === action.value);
          noteCopy = { ...state[noteIndex] };
-         noteCopy.id = index;
-
+         noteCopy.id = getFirstFreeId(state);
          return [...state, noteCopy];
 
       default:
@@ -154,6 +152,7 @@ const reduce = (state, action) => {
 };
 
 export const NotesModifierContext = createContext();
+//TODO: przeanalizuj kod
 function App() {
    const inputHolder = useRef();
    const input = useRef();
