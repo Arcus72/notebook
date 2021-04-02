@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import { NotesModifierContext } from 'src/App';
+import { valueContext } from 'src/App';
 import './index.scss';
 
-//TODO: przeanalizuj kod
 function Palette({ changeNoteColor, currentColor = '#28292c' }) {
-   const { colorList } = useContext(NotesModifierContext);
+   const { colorList } = useContext(valueContext);
 
    const colorPalette = colorList.map((item, index) => (
       <span

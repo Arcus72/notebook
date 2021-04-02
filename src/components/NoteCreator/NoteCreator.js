@@ -1,23 +1,22 @@
 import React, { useState, useRef, useContext } from 'react';
 import './index.scss';
-import { NotesModifierContext } from 'src/App';
+import { valueContext } from 'src/App';
 import Palette from '../Palette/Palette';
 
-//TODO: pin - logika
 //TODO: style
-//TODO: przeanalizuj kod
 
 function NoteCreator() {
    const [isOpen, setIsOpen] = useState(false);
    const titleTextHolder = useRef();
    const contextTextHolder = useRef();
    const [noteColor, setNoteColor] = useState('#28292c');
+   const [isPined, changePinStatus] = useState(false);
 
    //Value to create Note
    const titleValue = useRef();
    const contextValue = useRef();
 
-   const { notesModifier } = useContext(NotesModifierContext);
+   const { notesModifier } = useContext(valueContext);
 
    const setNewNote = () => {
       if (titleValue.current.textContent.trim() === '' && contextValue.current.textContent.trim() === '') return 1;
@@ -26,7 +25,7 @@ function NoteCreator() {
          title: titleValue.current.textContent,
          context: contextValue.current.textContent,
          color: noteColor,
-         isPined: false,
+         isPined: isPined,
       };
       restartNoteCreator();
       notesModifier({ type: 'setNewNote', value: newNote });
@@ -67,8 +66,11 @@ function NoteCreator() {
                <div ref={titleTextHolder} className='NoteCreator__textHolder NoteCreator__textHolder--title'>
                   Tytuł
                </div>
-               <div>
-                  <i className='NoteCreator__pin fas fa-map-pin'></i>
+               <div
+                  onClick={() => changePinStatus(isPined ? false : true)}
+                  className={`NoteCreator__pin ${isPined ? 'NoteCreator__pin--pined' : ''}`}
+               >
+                  <i className=' fas fa-map-pin'></i>
                </div>
             </div>
          )}

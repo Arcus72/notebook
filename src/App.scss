@@ -1,59 +1,18 @@
 .App {
-  &__banner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  &__title {
-    color: #fff;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 60px;
-    margin: 5px 15px;
-    line-height: 60px;
-    font-weight: normal;
-  }
+   &__banner {
+      text-align: center;
+   }
+   &__title {
+      color: #fff;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 60px;
+      margin: 5px 15px;
+      line-height: 60px;
+      font-weight: normal;
+   }
 
-  &__inputHolder {
-    margin-right: 0.3vw;
-    position: relative;
-    height: min-content;
-    background: #525355;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    padding: 8px 1px;
-    &--focus {
+   &__line {
       background: #fff;
-      input {
-        background: #fff;
-        color: #5f6368;
-      }
-      i {
-        color: #5f6368;
-      }
-    }
-  }
-
-  &__input {
-    margin-right: 1vw;
-    font-size: 1.5vw;
-    padding: 0.2vw 1px;
-    width: 400px;
-    border: none;
-    outline: none;
-    font-size: 20px;
-    background: #525355;
-    color: #fff;
-  }
-  &__searchIcon,
-  &__crossIcon {
-    color: white;
-    padding: 0 1vw;
-    font-size: 26px;
-  }
-
-  &__line {
-    background: #fff;
-    height: 1px;
-  }
+      height: 1px;
+   }
 }

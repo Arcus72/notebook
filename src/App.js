@@ -1,7 +1,6 @@
 import './App.scss';
-import React, { useRef, useState, useReducer, createContext } from 'react';
+import React, { useReducer, createContext } from 'react';
 import NoteBook from './components/NoteBook/NoteBook';
-import FiltredNotes from './components/FiltredNotes/FiltredNotes';
 
 let listOfNotesFormula = [
    {
@@ -151,26 +150,15 @@ const reduce = (state, action) => {
    }
 };
 
-export const NotesModifierContext = createContext();
+export const valueContext = createContext();
+//valueContext
 //TODO: przeanalizuj kod
 function App() {
-   const inputHolder = useRef();
-   const input = useRef();
-   const [isSearching, setIsSearching] = useState(false);
    const [listOfNotes, notesModifier] = useReducer(reduce, listOfNotesFormula);
-
-   const changeInputHolderColor = (action) => {
-      if (action.type === 'focus') {
-         inputHolder.current.classList.add('App__inputHolder--focus');
-         setIsSearching(true);
-         return 1;
-      }
-      inputHolder.current.classList.remove('App__inputHolder--focus');
-   };
 
    return (
       <div className='App'>
-         <NotesModifierContext.Provider
+         <valueContext.Provider
             value={{
                colorList: colorList,
                notesModifier: notesModifier,
@@ -178,31 +166,11 @@ function App() {
          >
             <div className='App__banner'>
                <header className='App__title'>NOTATNIK</header>
-               <div ref={inputHolder} className='App__inputHolder'>
-                  <i className='App__searchIcon fas fa-search'></i>
-                  <input
-                     ref={input}
-                     placeholder='Szukaj'
-                     onFocus={() => changeInputHolderColor({ type: 'focus', value: null })}
-                     onBlur={(e) => changeInputHolderColor({ type: 'blur', value: e })}
-                     className='App__input'
-                     type='text'
-                  />
-                  {isSearching && (
-                     <i
-                        className='App__crossIcon fas fa-times'
-                        onClick={() => {
-                           setIsSearching(false);
-                           input.current.value = '';
-                        }}
-                     ></i>
-                  )}
-               </div>
             </div>
             <div className='App__line'></div>
 
-            {isSearching ? <FiltredNotes list={listOfNotes} /> : <NoteBook notesModifier={notesModifier} list={listOfNotes} />}
-         </NotesModifierContext.Provider>
+            <NoteBook notesModifier={notesModifier} list={listOfNotes} />
+         </valueContext.Provider>
       </div>
    );
 }
