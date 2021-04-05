@@ -117,22 +117,27 @@ const reduce = (state, action) => {
    let noteIndex;
    let noteCopy;
    switch (action.type) {
+      case 'changeNoteProperties':
+         noteIndex = listCopy.findIndex((item) => item.id === action.value.id);
+         listCopy[noteIndex][action.value.propertyName] = action.value.newValue;
+         return listCopy;
+
       case 'setNewNote':
          let newNote = action.value;
          newNote.id = getFirstFreeId(state);
-
          return [...state, newNote];
+
       case 'edit':
          noteIndex = listCopy.findIndex((item) => item.id === action.value.id);
          listCopy[noteIndex] = action.value.newVersion;
          return listCopy;
 
       case 'changePinStatus':
-         noteIndex = listCopy.findIndex((item) => item.id === action.value.id);
-
+         noteIndex = listCopy.findIndex((item) => item.id === action.value);
+         noteCopy = { ...listCopy[noteIndex] };
+         noteCopy.isPined = !noteCopy.isPined;
          listCopy.splice(noteIndex, 1);
-
-         return [action.value.newVersion, ...listCopy];
+         return [noteCopy, ...listCopy];
 
       case 'delete':
          noteIndex = listCopy.findIndex((item) => item.id === action.value);
@@ -151,8 +156,7 @@ const reduce = (state, action) => {
 };
 
 export const valueContext = createContext();
-//valueContext
-//TODO: przeanalizuj kod
+
 function App() {
    const [listOfNotes, notesModifier] = useReducer(reduce, listOfNotesFormula);
 

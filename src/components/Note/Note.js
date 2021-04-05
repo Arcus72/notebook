@@ -17,15 +17,6 @@ function Note({ data }) {
       if (i > 10) setIsOverflow(true);
    }, []);
 
-   const changeIsPinedValue = () => {
-      const dataCopy = data;
-      data.isPined = !dataCopy.isPined;
-      notesModifier({
-         type: 'changePinStatus',
-         value: { id: data.id, newVersion: dataCopy },
-      });
-   };
-
    const changeNoteColor = (color) => {
       if (color !== data.color) {
          let dataCopy = data;
@@ -44,7 +35,15 @@ function Note({ data }) {
             <div ref={textContainerRef} className='Note__textContainer'>
                <header className='Note__title'>
                   <div className='Note__titleValue'>
-                     <div onClick={changeIsPinedValue} className={`Note__pinIcon ${data.isPined ? 'Note__pinIcon--pined' : ''}`}>
+                     <div
+                        onClick={() =>
+                           notesModifier({
+                              type: 'changePinStatus',
+                              value: data.id,
+                           })
+                        }
+                        className={`Note__pinIcon ${data.isPined ? 'Note__pinIcon--pined' : ''}`}
+                     >
                         <i className='fas fa-map-pin'></i>
                      </div>
                      <span onClick={() => setIsEditing(true)}> {data.title}</span>
