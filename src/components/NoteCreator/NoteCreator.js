@@ -3,7 +3,7 @@ import './index.scss';
 import { valueContext } from 'src/App';
 import Palette from '../Palette/Palette';
 
-//TODO: style
+//FIXME: curtyna się nie zasuwa
 
 function NoteCreator() {
    const [isOpen, setIsOpen] = useState(false);
@@ -22,8 +22,8 @@ function NoteCreator() {
       if (titleValue.current.textContent.trim() === '' && contextValue.current.textContent.trim() === '') return 1;
       let newNote = {
          id: null,
-         title: titleValue.current.textContent,
-         context: contextValue.current.textContent,
+         title: titleValue.current.innerHTML,
+         context: contextValue.current.innerHTML,
          color: noteColor,
          isPined: isPined,
       };
@@ -82,7 +82,7 @@ function NoteCreator() {
                contentEditable='true'
                className='NoteCreator__contextValue'
             ></div>
-            <div ref={contextTextHolder} className='NoteCreator__textHolder NoteCreator__textHolder--context'>
+            <div ref={contextTextHolder} className='NoteCreator__textHolder NoteCreator__textHolder'>
                Utwórz notatkę...
             </div>
          </div>

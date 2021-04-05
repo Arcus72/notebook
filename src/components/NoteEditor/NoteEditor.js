@@ -4,8 +4,6 @@ import './index.scss';
 import Palette from '../Palette/Palette';
 import { valueContext } from 'src/App';
 
-// noteCopy.color = action.value;
-
 function NoteEditor({ data, setIsEditing }) {
    const titleValueRef = useRef();
    const contextValueRef = useRef();
@@ -39,6 +37,10 @@ function NoteEditor({ data, setIsEditing }) {
       textHolderRef.current.style.cssText = 'visibility: hidden';
    };
 
+   const closeEditor = (e) => {
+      if (e.target.className === 'curtain') setIsEditing(false);
+   };
+
    useEffect(() => {
       if (titleValueRef.current.innerHTML != '') {
          titleTextHolder.current.style.cssText = 'visibility: hidden';
@@ -49,10 +51,7 @@ function NoteEditor({ data, setIsEditing }) {
    }, []);
 
    return (
-      <div
-         /*FIXME: wyłacz edytowanie po kliknięciu curtain */
-         className='curtain'
-      >
+      <div className='curtain' onClick={(e) => closeEditor(e)}>
          <div className='NoteEditor' style={{ background: data.color }}>
             <div className='NoteEditor__titleContainer'>
                <div
@@ -108,8 +107,8 @@ function NoteEditor({ data, setIsEditing }) {
             <div className='NoteEditor__options'>
                <div>
                   <Palette changeNoteColor={changeNoteColor} currentColor={data.color} />
-                  <i title='usuń' onClick={deleteNote} className='fas fa-trash'></i>
-                  <i title='kopiuj' onClick={copyNote} className='fas fa-copy'></i>
+                  <i title='usuń' onClick={deleteNote} className='NoteEditor__option fas fa-trash'></i>
+                  <i title='kopiuj' onClick={copyNote} className='NoteEditor__option fas fa-copy'></i>
                </div>
                <div className='NoteEditor__rigthOptions'>
                   <span onClick={() => setIsEditing(false)} className='NoteEditor__closeBtn'>

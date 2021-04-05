@@ -16,7 +16,6 @@
    width: max-content;
    width: 100%;
    word-break: break-all;
-   font-size: 20px;
 }
 
 .NoteEditor {
@@ -24,8 +23,9 @@
    border: 1px #9aa0a6 solid;
    border-radius: 1vw;
    width: 550px;
+
    margin: 0 auto;
-   padding: 5px;
+   padding: 10px;
    color: #fff;
    &__titleContainer {
       font-size: 20px;
@@ -61,15 +61,18 @@
 
    &__titleValue {
       @include valueStyle;
+      font-size: 30px;
    }
 
    &__contextContainer {
+      margin: 10px 0px;
       font-size: 20px;
       position: relative;
    }
 
    &__contextValue {
       @include valueStyle;
+      font-size: 20px;
    }
 
    &__textHolder {
@@ -79,12 +82,27 @@
       position: absolute;
       top: 0;
       left: 0;
+      &--title {
+         font-size: 30px;
+      }
    }
 
    &__options {
       display: flex;
       justify-content: space-between;
-      font-size: 30px;
+      font-size: 25px;
+   }
+   &__option,
+   .Palette {
+      padding: 0px 6px;
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: $iconColor;
+      color: rgba(0, 0, 0, 0);
+      &:hover {
+         -webkit-text-stroke-width: 0px;
+         -webkit-text-stroke-color: $iconColor;
+         color: #fff;
+      }
    }
 
    &__closeBtn {

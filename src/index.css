@@ -1,13 +1,18 @@
 *,
 *::before,
 *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
 }
 
 body {
-  background: #28292c;
+   background: #28292c;
+}
+
+html,
+body {
+   height: 100%;
 }
 
 /* fonts */

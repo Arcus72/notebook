@@ -2,57 +2,57 @@ import './App.scss';
 import React, { useReducer, createContext } from 'react';
 import NoteBook from './components/NoteBook/NoteBook';
 
-let listOfNotesFormula = [
-   {
-      id: 1,
-      title: 'Kosz',
-      context: 'Lorem ipsum',
-      color: '#28292c',
-      isPined: false,
-   },
-   {
-      id: 3,
-      title: '',
-      context: 'Lorem ipsum',
-      color: '#28292c',
-      isPined: false,
-   },
-   {
-      id: 2,
-      title: 'Praca domowa',
-      context: 'sdf sdf<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/><br/>',
-      color: '#28292c',
-      isPined: true,
-   },
-   {
-      id: 10,
-      title: 'Dokończ strone',
-      context: '',
-      color: '#5C2B29',
-      isPined: false,
-   },
-   {
-      id: 4,
-      title: 'React',
-      context: '<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/><br/>',
-      color: '#5C2B29',
-      isPined: false,
-   },
-   {
-      id: 5,
-      title: 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
-      context: '',
-      color: '#5C2B29',
-      isPined: false,
-   },
-   {
-      id: 6,
-      title: '',
-      context: 'ddddddddddddddddddddddddddddddddddddddddddddddddd',
-      color: '#5C2B29',
-      isPined: false,
-   },
-];
+// let listOfNotesFormula = [
+//    {
+//       id: 1,
+//       title: 'Kosz',
+//       context: 'Lorem ipsum',
+//       color: '#28292c',
+//       isPined: false,
+//    },
+//    {
+//       id: 3,
+//       title: '',
+//       context: 'Lorem ipsum',
+//       color: '#28292c',
+//       isPined: false,
+//    },
+//    {
+//       id: 2,
+//       title: 'Praca domowa',
+//       context: 'sdf sdf<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/><br/>',
+//       color: '#28292c',
+//       isPined: true,
+//    },
+//    {
+//       id: 10,
+//       title: 'Dokończ strone',
+//       context: '',
+//       color: '#5C2B29',
+//       isPined: false,
+//    },
+//    {
+//       id: 4,
+//       title: 'React',
+//       context: '<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/><br/>',
+//       color: '#5C2B29',
+//       isPined: false,
+//    },
+//    {
+//       id: 5,
+//       title: 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+//       context: '',
+//       color: '#5C2B29',
+//       isPined: false,
+//    },
+//    {
+//       id: 6,
+//       title: '',
+//       context: 'ddddddddddddddddddddddddddddddddddddddddddddddddd',
+//       color: '#5C2B29',
+//       isPined: false,
+//    },
+// ];
 
 const colorList = [
    {
@@ -155,10 +155,22 @@ const reduce = (state, action) => {
    }
 };
 
+const saveNotesInLocalStorage = (notesList) => {
+   window.localStorage.setItem('notes', JSON.stringify(notesList));
+};
+
+const getArrayOfNotes = () => {
+   return JSON.parse(window.localStorage.getItem('notes'));
+};
 export const valueContext = createContext();
 
 function App() {
-   const [listOfNotes, notesModifier] = useReducer(reduce, listOfNotesFormula);
+   const [listOfNotes, notesModifier] = useReducer(reduce, getArrayOfNotes());
+
+   //TODO: Nie wywołuje się na początku
+   React.useEffect(() => {
+      saveNotesInLocalStorage(listOfNotes);
+   }, [listOfNotes]);
 
    return (
       <div className='App'>

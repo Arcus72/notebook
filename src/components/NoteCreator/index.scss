@@ -3,17 +3,17 @@
    width: max-content;
    width: 100%;
    word-break: break-all;
-   font-size: 20px;
 }
 
 .NoteCreator {
    border: 1px #9aa0a6 solid;
    border-radius: 1vw;
-   width: 450px;
-   margin: 0 auto;
+   width: 500px;
+   margin: 30px auto;
    padding: 5px;
    color: #fff;
    &__titleContainer {
+      margin-bottom: 10px;
       font-size: 20px;
       position: relative;
       display: flex;
@@ -47,6 +47,7 @@
 
    &__titleValue {
       @include valueStyle;
+      font-size: 30px;
    }
 
    &__contextContainer {
@@ -56,6 +57,7 @@
 
    &__contextValue {
       @include valueStyle;
+      font-size: 20px;
    }
 
    &__textHolder {
@@ -65,12 +67,16 @@
       position: absolute;
       top: 0;
       left: 0;
+      &--title {
+         font-size: 30px;
+      }
    }
 
    &__options {
+      margin: 10px 0px 2px 5px;
       display: flex;
       justify-content: space-between;
-      font-size: 30px;
+      font-size: 20px;
    }
 
    &__addBtn,
