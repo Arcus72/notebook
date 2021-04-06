@@ -60,7 +60,7 @@ function NoteEditor({ data, setIsEditing }) {
                   ref={titleValueRef}
                   contentEditable='true'
                   className='NoteEditor__titleValue'
-                  onKeyDown={(e) =>
+                  onKeyUp={(e) =>
                      notesModifier({
                         type: 'changeNoteProperties',
                         value: { id: data.id, propertyName: 'title', newValue: e.target.innerHTML },
@@ -71,7 +71,7 @@ function NoteEditor({ data, setIsEditing }) {
                <div ref={titleTextHolder} className='NoteEditor__textHolder NoteEditor__textHolder--title'>
                   Tytuł
                </div>
-               <div className={`NoteEditor__pin `}>
+               <div className={`NoteEditor__pin ${data.isPined && 'NoteEditor__pin--pined'}`}>
                   <i
                      onClick={() =>
                         notesModifier({
