@@ -17,9 +17,21 @@ function Note({ data }) {
       i = Math.round(i);
       if (i > 10) setIsOverflow(true);
 
-      //fadeIn
+      //fadeInl
       phisicalNote.current.classList.add('noteFadeIn');
    }, []);
+
+   const firstRender = useRef(true);
+   useEffect(() => {
+      if (firstRender.current === false) {
+         if (isEditing === false) {
+            console.log('note render');
+            //TODO: wykonaj format content i title usuwając spacje i br z końca i początku
+            // wywołując notesModifier
+         }
+      }
+      firstRender.current = false;
+   }, [isEditing]);
 
    const changeNoteColor = (color) => {
       if (color !== data.color) {

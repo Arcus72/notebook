@@ -3,27 +3,25 @@ import './index.scss';
 import { valueContext } from 'src/App';
 import Palette from '../Palette/Palette';
 
-//FIXME: curtyna się nie zasuwa
-
 function NoteCreator() {
    const [isOpen, setIsOpen] = useState(false);
    const titleTextHolder = useRef();
-   const contextTextHolder = useRef();
+   const contentTextHolder = useRef();
    const [noteColor, setNoteColor] = useState('#28292c');
    const [isPined, changePinStatus] = useState(false);
 
    //Value to create Note
    const titleValue = useRef();
-   const contextValue = useRef();
+   const contentValue = useRef();
 
    const { notesModifier } = useContext(valueContext);
 
    const setNewNote = () => {
-      if (titleValue.current.textContent.trim() === '' && contextValue.current.textContent.trim() === '') return 1;
+      if (titleValue.current.textContent.trim() === '' && contentValue.current.textContent.trim() === '') return 1;
       let newNote = {
          id: null,
          title: titleValue.current.innerHTML,
-         context: contextValue.current.innerHTML,
+         content: contentValue.current.innerHTML,
          color: noteColor,
          isPined: isPined,
       };
@@ -47,8 +45,8 @@ function NoteCreator() {
       setIsOpen(false);
       setNoteColor('#28292c');
       titleValue.current.textContent = '';
-      contextValue.current.textContent = '';
-      showTextHolder(contextTextHolder);
+      contentValue.current.textContent = '';
+      showTextHolder(contentTextHolder);
       showTextHolder(titleTextHolder);
    };
 
@@ -74,15 +72,15 @@ function NoteCreator() {
                </div>
             </div>
          )}
-         <div className='NoteCreator__contextContainer'>
+         <div className='NoteCreator__contentContainer'>
             <div
-               onFocus={() => hideTextHolder(contextTextHolder)}
-               onBlur={(e) => showTextHolder(contextTextHolder, e)}
-               ref={contextValue}
+               onFocus={() => hideTextHolder(contentTextHolder)}
+               onBlur={(e) => showTextHolder(contentTextHolder, e)}
+               ref={contentValue}
                contentEditable='true'
-               className='NoteCreator__contextValue'
+               className='NoteCreator__contentValue'
             ></div>
-            <div ref={contextTextHolder} className='NoteCreator__textHolder NoteCreator__textHolder'>
+            <div ref={contentTextHolder} className='NoteCreator__textHolder NoteCreator__textHolder'>
                Utwórz notatkę...
             </div>
          </div>

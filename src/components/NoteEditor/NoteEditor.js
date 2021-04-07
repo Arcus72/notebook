@@ -4,6 +4,8 @@ import './index.scss';
 import Palette from '../Palette/Palette';
 import { valueContext } from 'src/App';
 
+//TODO: po zamknięciu wykonaj format notatki -> po isOpenEditor(false)
+
 function NoteEditor({ data, setIsEditing }) {
    const titleValueRef = useRef();
    const contextValueRef = useRef();

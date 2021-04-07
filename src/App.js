@@ -98,6 +98,9 @@ const reduce = (state, action) => {
          noteCopy.id = getFirstFreeId(state);
          return [...state, noteCopy];
 
+      case 'formatNote':
+         return state;
+
       default:
          return state;
    }

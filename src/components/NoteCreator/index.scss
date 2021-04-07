@@ -50,12 +50,12 @@
       font-size: 30px;
    }
 
-   &__contextContainer {
+   &__contentContainer {
       font-size: 20px;
       position: relative;
    }
 
-   &__contextValue {
+   &__contentValue {
       @include valueStyle;
       font-size: 20px;
    }
