@@ -45,6 +45,11 @@
       }
    }
 
+   &__textConteiner {
+      max-height: 30vh;
+      overflow-y: auto;
+   }
+
    &__titleValue {
       @include valueStyle;
       font-size: 30px;

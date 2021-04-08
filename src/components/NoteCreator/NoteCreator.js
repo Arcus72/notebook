@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from 'react';
 import './index.scss';
 import { valueContext } from 'src/App';
 import Palette from '../Palette/Palette';
+//TODO: analiza
 
 function NoteCreator() {
    const [isOpen, setIsOpen] = useState(false);
@@ -52,36 +53,38 @@ function NoteCreator() {
 
    return (
       <div style={{ background: noteColor }} onClick={() => (!isOpen ? setIsOpen(true) : '')} className='NoteCreator'>
-         {isOpen && (
-            <div className='NoteCreator__titleContainer'>
+         <div className='NoteCreator__textConteiner'>
+            {isOpen && (
+               <div className='NoteCreator__titleContainer'>
+                  <div
+                     onFocus={() => hideTextHolder(titleTextHolder)}
+                     onBlur={(e) => showTextHolder(titleTextHolder, e)}
+                     ref={titleValue}
+                     contentEditable='true'
+                     className='NoteCreator__titleValue'
+                  ></div>
+                  <div ref={titleTextHolder} className='NoteCreator__textHolder NoteCreator__textHolder--title'>
+                     Tytuł
+                  </div>
+                  <div
+                     onClick={() => changePinStatus(isPined ? false : true)}
+                     className={`NoteCreator__pin ${isPined ? 'NoteCreator__pin--pined' : ''}`}
+                  >
+                     <i className=' fas fa-map-pin'></i>
+                  </div>
+               </div>
+            )}
+            <div className='NoteCreator__contentContainer'>
                <div
-                  onFocus={() => hideTextHolder(titleTextHolder)}
-                  onBlur={(e) => showTextHolder(titleTextHolder, e)}
-                  ref={titleValue}
+                  onFocus={() => hideTextHolder(contentTextHolder)}
+                  onBlur={(e) => showTextHolder(contentTextHolder, e)}
+                  ref={contentValue}
                   contentEditable='true'
-                  className='NoteCreator__titleValue'
+                  className='NoteCreator__contentValue'
                ></div>
-               <div ref={titleTextHolder} className='NoteCreator__textHolder NoteCreator__textHolder--title'>
-                  Tytuł
+               <div ref={contentTextHolder} className='NoteCreator__textHolder NoteCreator__textHolder'>
+                  Utwórz notatkę...
                </div>
-               <div
-                  onClick={() => changePinStatus(isPined ? false : true)}
-                  className={`NoteCreator__pin ${isPined ? 'NoteCreator__pin--pined' : ''}`}
-               >
-                  <i className=' fas fa-map-pin'></i>
-               </div>
-            </div>
-         )}
-         <div className='NoteCreator__contentContainer'>
-            <div
-               onFocus={() => hideTextHolder(contentTextHolder)}
-               onBlur={(e) => showTextHolder(contentTextHolder, e)}
-               ref={contentValue}
-               contentEditable='true'
-               className='NoteCreator__contentValue'
-            ></div>
-            <div ref={contentTextHolder} className='NoteCreator__textHolder NoteCreator__textHolder'>
-               Utwórz notatkę...
             </div>
          </div>
          {isOpen && (

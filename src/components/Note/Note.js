@@ -4,6 +4,9 @@ import { valueContext } from 'src/App';
 import Palette from 'src/components/Palette/Palette';
 import NoteEditor from 'src/components/NoteEditor/NoteEditor';
 
+//TODO: analiza
+//FIXME: isOverflow nie działa - spawdzi czy to DHTML
+//NOTE: działa ale nie za piewszym razem
 function Note({ data }) {
    const { notesModifier } = useContext(valueContext);
    const [isOverflow, setIsOverflow] = useState(false);
@@ -11,27 +14,21 @@ function Note({ data }) {
    const textContainerRef = useRef();
    const phisicalNote = useRef();
 
+   const checkSetOverflowState = () => {
+      let i = textContainerRef.current.scrollHeight - textContainerRef.current.clientHeight;
+      console.log(i);
+
+      if (i > 5) setIsOverflow(true);
+   };
+
+   useEffect(checkSetOverflowState, [data.title, data.content]);
+
    useEffect(() => {
-      // cheking is textContext is overflow and change isOverflow value
-      let i = textContainerRef.current.scrollHeight - textContainerRef.current.getBoundingClientRect().height;
-      i = Math.round(i);
-      if (i > 10) setIsOverflow(true);
+      setIsEditing(false);
 
       //fadeInl
       phisicalNote.current.classList.add('noteFadeIn');
    }, []);
-
-   const firstRender = useRef(true);
-   useEffect(() => {
-      if (firstRender.current === false) {
-         if (isEditing === false) {
-            console.log('note render');
-            //TODO: wykonaj format content i title usuwając spacje i br z końca i początku
-            // wywołując notesModifier
-         }
-      }
-      firstRender.current = false;
-   }, [isEditing]);
 
    const changeNoteColor = (color) => {
       if (color !== data.color) {
@@ -54,13 +51,13 @@ function Note({ data }) {
       fadeOut(() =>
          notesModifier({
             type: 'changePinStatus',
-            value: data.id,
+            value: { id: data.id },
          })
       );
    };
 
    const deleteNote = () => {
-      fadeOut(() => notesModifier({ type: 'delete', value: data.id }));
+      fadeOut(() => notesModifier({ type: 'delete', value: { id: data.id } }));
    };
 
    return (
@@ -85,14 +82,18 @@ function Note({ data }) {
 
                <div
                   onClick={() => setIsEditing(true)}
-                  className='Note__context'
-                  dangerouslySetInnerHTML={{ __html: data.context ? data.context : '<br />' }}
+                  className='Note__content'
+                  dangerouslySetInnerHTML={{ __html: data.content ? data.content : '<br />' }}
                ></div>
             </div>
             {isOverflow && <div className='Note__continuationDots'>...</div>}
             <div className='Note__options'>
                <i title='usuń' onClick={deleteNote} className='fas fa-trash'></i>
-               <i title='kopiuj' onClick={() => notesModifier({ type: 'copy', value: data.id })} className='fas fa-copy'></i>
+               <i
+                  title='kopiuj'
+                  onClick={() => notesModifier({ type: 'copy', value: { id: data.id } })}
+                  className='fas fa-copy'
+               ></i>
                <Palette changeNoteColor={changeNoteColor} currentColor={data.color} />
             </div>
          </div>

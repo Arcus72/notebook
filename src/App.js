@@ -60,13 +60,15 @@ const getFirstFreeId = (list) => {
    }
 };
 
+const getIndex = (id, arr) => arr.findIndex((item) => item.id === id);
+
 const reduce = (state, action) => {
    const listCopy = [...state];
-   let noteIndex;
+   let noteIndex = action.type !== 'setNewNote' && getIndex(action.value.id, state);
    let noteCopy;
+
    switch (action.type) {
       case 'changeNoteProperties':
-         noteIndex = listCopy.findIndex((item) => item.id === action.value.id);
          listCopy[noteIndex][action.value.propertyName] = action.value.newValue;
          return listCopy;
 
@@ -76,30 +78,24 @@ const reduce = (state, action) => {
          return [...state, newNote];
 
       case 'edit':
-         noteIndex = listCopy.findIndex((item) => item.id === action.value.id);
          listCopy[noteIndex] = action.value.newVersion;
          return listCopy;
 
       case 'changePinStatus':
-         noteIndex = listCopy.findIndex((item) => item.id === action.value);
          noteCopy = { ...listCopy[noteIndex] };
          noteCopy.isPined = !noteCopy.isPined;
          listCopy.splice(noteIndex, 1);
          return [noteCopy, ...listCopy];
 
       case 'delete':
-         noteIndex = listCopy.findIndex((item) => item.id === action.value);
          listCopy.splice(noteIndex, 1);
          return listCopy;
 
       case 'copy':
-         noteIndex = listCopy.findIndex((item) => item.id === action.value);
          noteCopy = { ...state[noteIndex] };
          noteCopy.id = getFirstFreeId(state);
-         return [...state, noteCopy];
-
-      case 'formatNote':
-         return state;
+         listCopy.splice(noteIndex + 1, 0, noteCopy);
+         return listCopy;
 
       default:
          return state;
@@ -116,7 +112,7 @@ const getArrayOfNotes = () => {
 export const valueContext = createContext();
 
 function App() {
-   const [listOfNotes, notesModifier] = useReducer(reduce, getArrayOfNotes());
+   const [listOfNotes, notesModifier] = useReducer(reduce, getArrayOfNotes() || []);
 
    let firstRender = useRef(true);
    useEffect(() => {

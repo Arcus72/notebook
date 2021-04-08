@@ -28,7 +28,7 @@
    padding: 10px;
    color: #fff;
    &__titleContainer {
-      font-size: 20px;
+      font-size: 30px;
       position: relative;
       display: flex;
       justify-content: space-between;
@@ -59,9 +59,13 @@
       }
    }
 
+   &__textContainer {
+      max-height: 50vh;
+      overflow-y: auto;
+   }
+
    &__titleValue {
       @include valueStyle;
-      font-size: 30px;
    }
 
    &__contentContainer {
@@ -72,7 +76,6 @@
 
    &__contentValue {
       @include valueStyle;
-      font-size: 20px;
    }
 
    &__textHolder {
@@ -92,6 +95,7 @@
       justify-content: space-between;
       font-size: 25px;
    }
+
    &__option,
    .Palette {
       padding: 0px 6px;
