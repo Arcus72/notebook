@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
 import { valueContext } from 'src/App';
 import './index.scss';
-
+//TODO:  dodanie responsywności
 function Palette({ changeNoteColor, currentColor = '#28292c' }) {
    const { colorList } = useContext(valueContext);
 
-   const colorPalette = colorList.map((item, index) => (
+   const colorPalette = colorList.map(({ name, value }, index) => (
       <span
-         title={item.name}
+         title={name}
          key={index}
-         className={`Palette__color ${item.value === currentColor ? 'Palette__color--current' : ''}`}
-         onClick={() => changeNoteColor(item.value)}
-         style={{ background: item.value }}
+         className={`Palette__color ${value === currentColor ? 'Palette__color--current' : ''}`}
+         onClick={() => changeNoteColor(value)}
+         style={{ background: value }}
       ></span>
    ));
    return (

@@ -2,18 +2,26 @@ import React, { useState, useRef, useContext } from 'react';
 import './index.scss';
 import { valueContext } from 'src/App';
 import Palette from '../Palette/Palette';
-//TODO: analiza
+//TODO:  dodanie responsywności
+
+const showTextHolder = (textHolderRef, e) => {
+   if (e === undefined || e.target?.innerHTML === '') textHolderRef.current.style.cssText = 'visibility: visible';
+};
+
+const hideTextHolder = (textHolderRef) => {
+   textHolderRef.current.style.cssText = 'visibility: hidden';
+};
 
 function NoteCreator() {
    const [isOpen, setIsOpen] = useState(false);
    const titleTextHolder = useRef();
    const contentTextHolder = useRef();
-   const [noteColor, setNoteColor] = useState('#28292c');
-   const [isPined, changePinStatus] = useState(false);
 
    //Value to create Note
    const titleValue = useRef();
    const contentValue = useRef();
+   const [noteColor, setNoteColor] = useState('#28292c');
+   const [isPined, changePinStatus] = useState(false);
 
    const { notesModifier } = useContext(valueContext);
 
@@ -28,14 +36,6 @@ function NoteCreator() {
       };
       restartNoteCreator();
       notesModifier({ type: 'setNewNote', value: newNote });
-   };
-
-   const showTextHolder = (textHolderRef, e) => {
-      if (e === undefined || e.target?.innerHTML === '') textHolderRef.current.style.cssText = 'visibility: visible';
-   };
-
-   const hideTextHolder = (textHolderRef) => {
-      textHolderRef.current.style.cssText = 'visibility: hidden';
    };
 
    const changeNoteColor = (color) => {

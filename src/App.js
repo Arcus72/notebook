@@ -60,6 +60,8 @@ const getFirstFreeId = (list) => {
    }
 };
 
+const formatText = (text) => text.replace(/^(<div> *<br><\/div>)*|(<div> *<br><\/div>)*$/gm, '');
+
 const getIndex = (id, arr) => arr.findIndex((item) => item.id === id);
 
 const reduce = (state, action) => {
@@ -68,6 +70,11 @@ const reduce = (state, action) => {
    let noteCopy;
 
    switch (action.type) {
+      case 'formatNote':
+         listCopy[noteIndex].title = formatText(listCopy[noteIndex].title);
+         listCopy[noteIndex].content = formatText(listCopy[noteIndex].content);
+
+         return listCopy;
       case 'changeNoteProperties':
          listCopy[noteIndex][action.value.propertyName] = action.value.newValue;
          return listCopy;
@@ -111,6 +118,7 @@ const getArrayOfNotes = () => {
 };
 export const valueContext = createContext();
 
+//TODO:  dodanie responsywności
 function App() {
    const [listOfNotes, notesModifier] = useReducer(reduce, getArrayOfNotes() || []);
 
@@ -135,7 +143,7 @@ function App() {
             </div>
             <div className='App__line'></div>
 
-            <NoteBook notesModifier={notesModifier} list={listOfNotes} />
+            <NoteBook list={listOfNotes} />
          </valueContext.Provider>
       </div>
    );

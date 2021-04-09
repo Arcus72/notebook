@@ -4,9 +4,7 @@ import { valueContext } from 'src/App';
 import Palette from 'src/components/Palette/Palette';
 import NoteEditor from 'src/components/NoteEditor/NoteEditor';
 
-//TODO: analiza
-//FIXME: isOverflow nie działa - spawdzi czy to DHTML
-//NOTE: działa ale nie za piewszym razem
+//TODO:  dodanie responsywności
 function Note({ data }) {
    const { notesModifier } = useContext(valueContext);
    const [isOverflow, setIsOverflow] = useState(false);
@@ -16,27 +14,33 @@ function Note({ data }) {
 
    const checkSetOverflowState = () => {
       let i = textContainerRef.current.scrollHeight - textContainerRef.current.clientHeight;
-      console.log(i);
-
-      if (i > 5) setIsOverflow(true);
+      i > 5 ? setIsOverflow(true) : setIsOverflow(false);
    };
 
-   useEffect(checkSetOverflowState, [data.title, data.content]);
+   const firstRender = useRef(false);
+   useEffect(() => {
+      // chack note overflow and format note
+      if (firstRender.current && !isEditing) {
+         checkSetOverflowState();
+         notesModifier({ type: 'formatNote', value: { id: data.id } });
+      }
+      firstRender.current = true;
+   }, [isEditing, notesModifier, data.id]);
 
    useEffect(() => {
       setIsEditing(false);
-
-      //fadeInl
+      setTimeout(checkSetOverflowState, 500);
+      notesModifier({ type: 'formatNote', value: { id: data.id } });
+      //fadeIn
       phisicalNote.current.classList.add('noteFadeIn');
-   }, []);
+   }, [notesModifier, data.id]);
 
    const changeNoteColor = (color) => {
       if (color !== data.color) {
-         let dataCopy = data;
-         dataCopy.color = color;
+         data.color = color;
          notesModifier({
             type: 'edit',
-            value: { id: data.id, newVersion: dataCopy },
+            value: { id: data.id, newVersion: data },
          });
       }
    };
@@ -73,10 +77,10 @@ function Note({ data }) {
                      <div onClick={changePinStatus} className={`Note__pinIcon ${data.isPined ? 'Note__pinIcon--pined' : ''}`}>
                         <i className='fas fa-map-pin'></i>
                      </div>
-                     <span
+                     <div
                         dangerouslySetInnerHTML={{ __html: data.title ? data.title : '<br />' }}
                         onClick={() => setIsEditing(true)}
-                     ></span>
+                     ></div>
                   </div>
                </header>
 

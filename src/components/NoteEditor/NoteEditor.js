@@ -3,9 +3,7 @@ import React, { useRef, useEffect, useState, useContext } from 'react';
 import './index.scss';
 import Palette from '../Palette/Palette';
 import { valueContext } from 'src/App';
-
-//TODO: analiza
-
+//TODO: dodanie responsywności
 function NoteEditor({ data, setIsEditing }) {
    const titleValueRef = useRef();
    const contentValueRef = useRef();
@@ -47,6 +45,7 @@ function NoteEditor({ data, setIsEditing }) {
       if (titleValueRef.current.innerHTML != '') {
          titleTextHolder.current.style.cssText = 'visibility: hidden';
       }
+
       if (contentValueRef.current.innerHTML != '') {
          contentTextHolder.current.style.cssText = 'visibility: hidden';
       }
@@ -100,7 +99,7 @@ function NoteEditor({ data, setIsEditing }) {
                         })
                      }
                      className='NoteEditor__contentValue'
-                     dangerouslySetInnerHTML={{ __html: contentValue ? contentValue : '<br />' }}
+                     dangerouslySetInnerHTML={{ __html: contentValue }} //  ? contentValue : '<br />'
                   ></div>
                   <div ref={contentTextHolder} className='NoteEditor__textHolder NoteEditor__textHolder--content'>
                      Utwórz notatkę...
