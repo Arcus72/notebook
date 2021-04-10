@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState, useContext } from 'react';
 import './index.scss';
 import Palette from '../Palette/Palette';
 import { valueContext } from 'src/App';
-//TODO: dodanie responsywności
+
 function NoteEditor({ data, setIsEditing }) {
    const titleValueRef = useRef();
    const contentValueRef = useRef();

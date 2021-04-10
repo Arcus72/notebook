@@ -4,7 +4,6 @@ import { valueContext } from 'src/App';
 import Palette from 'src/components/Palette/Palette';
 import NoteEditor from 'src/components/NoteEditor/NoteEditor';
 
-//TODO:  dodanie responsywności
 function Note({ data }) {
    const { notesModifier } = useContext(valueContext);
    const [isOverflow, setIsOverflow] = useState(false);

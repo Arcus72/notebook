@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { valueContext } from 'src/App';
 import './index.scss';
-//TODO:  dodanie responsywności
+
 function Palette({ changeNoteColor, currentColor = '#28292c' }) {
    const { colorList } = useContext(valueContext);
 

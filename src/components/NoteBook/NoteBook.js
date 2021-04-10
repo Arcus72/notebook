@@ -3,7 +3,6 @@ import NoteCreator from '../NoteCreator/NoteCreator';
 import Note from '../Note/Note';
 import './index.scss';
 
-//TODO: dodanie responsywności
 function NoteBook({ list }) {
    const pined = list.filter((note) => {
       return note.isPined === true;

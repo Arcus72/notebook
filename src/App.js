@@ -118,7 +118,6 @@ const getArrayOfNotes = () => {
 };
 export const valueContext = createContext();
 
-//TODO:  dodanie responsywności
 function App() {
    const [listOfNotes, notesModifier] = useReducer(reduce, getArrayOfNotes() || []);
 
