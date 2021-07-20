@@ -1,3 +1,12 @@
+//
+//TODO: testy
+//TODO: install font awosame
+//TODO: inny system ID: sdfkasf24tsad#
+//TODO: zmiana na TypeScript
+//TODO: callback/memo
+//TODO: Try,catch
+//
+
 import './App.scss';
 import React, { useReducer, createContext, useEffect, useRef } from 'react';
 import NoteBook from './components/NoteBook/NoteBook';
