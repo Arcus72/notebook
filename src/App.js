@@ -1,14 +1,11 @@
 //
-
-//TODO: testy
 //TODO: zmiana na TypeScript
 //TODO: callback/memo
 //TODO: Try,catch
 //
-
 import './App.scss';
 import React, { useReducer, createContext, useEffect, useRef } from 'react';
-import NoteBook from './components/NoteBook/NoteBook';
+import NoteBook from 'src/components/NoteBook/NoteBook';
 
 const colorList = [
    {
@@ -61,7 +58,7 @@ const colorList = [
    },
 ];
 
-const getIndex = (id, arr) => arr.findIndex((item) => item.id === id);
+export const getIndex = (id, arr) => arr.findIndex((item) => item.id === id);
 
 export const getFreeId = (list, id = new Date().getTime()) => {
    while (true) {
@@ -72,7 +69,7 @@ export const getFreeId = (list, id = new Date().getTime()) => {
 };
 
 export const formatText = (text) => text.replace(/^(<div> *<br><\/div>)*|(<div> *<br><\/div>)*$/gm, '') || '';
-//TODO: testing for reduce
+
 export const reduce = (state, action) => {
    const listCopy = [...state];
    //value.id => id
@@ -119,13 +116,10 @@ export const reduce = (state, action) => {
    }
 };
 
-const saveNotesInLocalStorage = (notesList) => {
-   window.localStorage.setItem('notes', JSON.stringify(notesList));
-};
+export const saveNotesInLocalStorage = (notesList) => window.localStorage.setItem('notes', JSON.stringify(notesList));
 
-const getArrayOfNotes = () => {
-   return JSON.parse(window.localStorage.getItem('notes')) || [];
-};
+export const getArrayOfNotes = () => JSON.parse(window.localStorage.getItem('notes')) || [];
+
 export const valueContext = createContext();
 
 function App() {

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import './index.scss';
-import Palette from '../Palette/Palette';
+import Palette from 'src/components/Palette/Palette';
 import { valueContext } from 'src/App';
 
 function NoteEditor({ data, setIsEditing }) {
@@ -98,7 +98,7 @@ function NoteEditor({ data, setIsEditing }) {
                         })
                      }
                      className='NoteEditor__contentValue'
-                     dangerouslySetInnerHTML={{ __html: contentValue }} //  ? contentValue : '<br />'
+                     dangerouslySetInnerHTML={{ __html: contentValue }}
                   ></div>
                   <div ref={contentTextHolder} className='NoteEditor__textHolder NoteEditor__textHolder--content'>
                      Utwórz notatkę...

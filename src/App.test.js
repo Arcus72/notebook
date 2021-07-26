@@ -1,6 +1,24 @@
-import { formatText } from 'src/App.js';
+import { formatText } from 'src/App';
 import { getFreeId } from 'src/App';
 import { reduce } from 'src/App';
+import { getIndex } from 'src/App';
+
+let arr = [
+   {
+      id: 1627289212318,
+      title: '<div>sdfsdf</div><div><br></div><div><br></div><div><br></div><div><br></div>',
+      content: '<div>sdfsdf</div><div><br></div><div><br></div><div><br></div><div><br></div>',
+      color: '#16504B',
+      isPined: false,
+   },
+   { id: 1627289212319, title: '<div>sdfsdf</div>', content: '<div>sdfsdf</div>', color: '#16504B', isPined: false },
+   { id: 1627289219221, title: 'sdsdfffssfsf', content: '', color: '#28292c', isPined: false },
+   { id: 1627289232359, title: '<br>', content: 'jsjdkkfks', color: '#28292c', isPined: false },
+   { id: 1627289477412, title: '<br>', content: 'jsjdkkfks', color: '#28292c', isPined: false },
+   { id: 1627289477183, title: '<br>', content: 'jsjdkkfks', color: '#28292c', isPined: false },
+   { id: 1627289476887, title: '<br>', content: 'jsjdkkfks', color: '#28292c', isPined: false },
+   { id: 1627289469678, title: '', content: 'asdff', color: '#28292c', isPined: false },
+];
 
 test('Testing note text formating', () => {
    expect(formatText('asdf')).toBe('asdf');
@@ -19,22 +37,17 @@ test('Testing note text formating', () => {
    expect(formatText('')).toBe('');
 });
 
-let arr = [
-   {
-      id: 1627289212318,
-      title: '<div>sdfsdf</div><div><br></div><div><br></div><div><br></div><div><br></div>',
-      content: '<div>sdfsdf</div><div><br></div><div><br></div><div><br></div><div><br></div>',
-      color: '#16504B',
-      isPined: false,
-   },
-   { id: 1627289212319, title: '<div>sdfsdf</div>', content: '<div>sdfsdf</div>', color: '#16504B', isPined: false },
-   { id: 1627289219221, title: 'sdsdfffssfsf', content: '', color: '#28292c', isPined: false },
-   { id: 1627289232359, title: '<br>', content: 'jsjdkkfks', color: '#28292c', isPined: false },
-   { id: 1627289477412, title: '<br>', content: 'jsjdkkfks', color: '#28292c', isPined: false },
-   { id: 1627289477183, title: '<br>', content: 'jsjdkkfks', color: '#28292c', isPined: false },
-   { id: 1627289476887, title: '<br>', content: 'jsjdkkfks', color: '#28292c', isPined: false },
-   { id: 1627289469678, title: '', content: 'asdff', color: '#28292c', isPined: false },
-];
+test('testing getIndex', () => {
+   expect(getIndex(1627289212318, arr)).toBe(0);
+   expect(getIndex(1627289212319, arr)).toBe(1);
+   expect(getIndex(1627289219221, arr)).toBe(2);
+   expect(getIndex(1627289232359, arr)).toBe(3);
+   expect(getIndex(1627289477412, arr)).toBe(4);
+   expect(getIndex(1627289477183, arr)).toBe(5);
+   expect(getIndex(1627289476887, arr)).toBe(6);
+   expect(getIndex(162728921518, arr)).toBe(-1);
+   expect(getIndex(1627289476889, arr)).toBe(-1);
+});
 
 test('Testing getFreeId', () => {
    expect(getFreeId(arr, 16272894771)).toBe(16272894771);
@@ -63,21 +76,9 @@ test('Testing Reducer - setNewNote', () => {
    expect(reduce(arr, { type: 'setNewNote', value: arr[1] })).toEqual([...arr, arr[1]]);
 });
 
-test('Testing Reducer - copy', () => {
-   expect(true).toBe(true);
-});
-
-test('Testing Reducer - edit', () => {
-   expect(reduce([arr[0], arr[1]], { type: 'edit', value: { id: 1627289212318, newValue: { ...arr[0], title: '' } } })).toEqual([
-      { ...arr[0], title: '' },
-      arr[1],
-   ]);
-});
-
-test('Testing Reducer - changePinStatus', () => {
-   expect(true).toBe(true);
-});
-
-test('Testing Reducer - changeNoteProperties', () => {
-   expect(true).toBe(true);
-});
+//TODO: Testing Reducer - copy
+//TODO: Testing Reducer - edit
+//TODO: Testing Reducer - changePinStatus
+//TODO: Testing Reducer - changeNoteProperties
+//TODO: Testing saveNotesInLocalStorage
+//TODO: Testing getArrayOfNotes

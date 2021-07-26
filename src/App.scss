@@ -16,8 +16,10 @@ body {
 }
 
 /* fonts */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-
+@font-face {
+   font-family: Bebas Neue;
+   src: url('./font/BebasNeue-Regular.ttf');
+}
 .App {
    &__banner {
       text-align: center;

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext } from 'react';
 import './index.scss';
 import { valueContext } from 'src/App';
-import Palette from '../Palette/Palette';
+import Palette from 'src/components/Palette/Palette';
 
 const showTextHolder = (textHolderRef, e) => {
    if (e === undefined || e.target?.innerHTML === '') textHolderRef.current.style.cssText = 'visibility: visible';
