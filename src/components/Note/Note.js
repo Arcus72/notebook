@@ -9,7 +9,7 @@ function Note({ data }) {
    const [isOverflow, setIsOverflow] = useState(false);
    const [isEditing, setIsEditing] = useState(false);
    const textContainerRef = useRef();
-   const phisicalNote = useRef();
+   const singleNote = useRef();
 
    const checkSetOverflowState = () => {
       let i = textContainerRef.current.scrollHeight - textContainerRef.current.clientHeight;
@@ -18,7 +18,6 @@ function Note({ data }) {
 
    const firstRender = useRef(false);
    useEffect(() => {
-      // chack note overflow and format note
       if (firstRender.current && !isEditing) {
          checkSetOverflowState();
          notesModifier({ type: 'formatNote', value: { id: data.id } });
@@ -31,7 +30,7 @@ function Note({ data }) {
       setTimeout(checkSetOverflowState, 500);
       notesModifier({ type: 'formatNote', value: { id: data.id } });
       //fadeIn
-      phisicalNote.current.classList.add('noteFadeIn');
+      singleNote.current.classList.add('noteFadeIn');
    }, [notesModifier, data.id]);
 
    const changeNoteColor = (color) => {
@@ -45,8 +44,8 @@ function Note({ data }) {
    };
 
    const fadeOut = (fn) => {
-      phisicalNote.current.classList.remove('noteFadeIn');
-      phisicalNote.current.classList.add('noteFadeOut');
+      singleNote.current.classList.remove('noteFadeIn');
+      singleNote.current.classList.add('noteFadeOut');
       setTimeout(fn, 500);
    };
 
@@ -65,11 +64,7 @@ function Note({ data }) {
 
    return (
       <>
-         <div
-            style={{ background: data.color, visibility: isEditing ? 'hidden' : 'visible' }}
-            ref={phisicalNote}
-            className='Note'
-         >
+         <div style={{ background: data.color, visibility: isEditing ? 'hidden' : 'visible' }} ref={singleNote} className='Note'>
             <div ref={textContainerRef} className='Note__textContainer'>
                <header className='Note__title'>
                   <div className='Note__titleValue'>

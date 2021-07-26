@@ -1,7 +1,6 @@
 //
+
 //TODO: testy
-//TODO: install font awosame
-//TODO: inny system ID: sdfkasf24tsad#
 //TODO: zmiana na TypeScript
 //TODO: callback/memo
 //TODO: Try,catch
@@ -62,23 +61,29 @@ const colorList = [
    },
 ];
 
-const getFirstFreeId = (list) => {
-   const idList = list.map((item) => item.id);
-   for (let i = 1; true; i++) {
-      if (idList.indexOf(i) === -1) return i;
+const getIndex = (id, arr) => arr.findIndex((item) => item.id === id);
+
+export const getFreeId = (list, id = new Date().getTime()) => {
+   while (true) {
+      let index = getIndex(id, list);
+      if (index === -1) return id;
+      else id++;
    }
 };
 
-const formatText = (text) => text.replace(/^(<div> *<br><\/div>)*|(<div> *<br><\/div>)*$/gm, '');
-
-const getIndex = (id, arr) => arr.findIndex((item) => item.id === id);
-
-const reduce = (state, action) => {
+export const formatText = (text) => text.replace(/^(<div> *<br><\/div>)*|(<div> *<br><\/div>)*$/gm, '') || '';
+//TODO: testing for reduce
+export const reduce = (state, action) => {
    const listCopy = [...state];
    let noteIndex = action.type !== 'setNewNote' && getIndex(action.value.id, state);
    let noteCopy;
 
    switch (action.type) {
+      case 'setNewNote':
+         let newNote = action.value;
+         newNote.id = getFreeId(state);
+         return [...state, newNote];
+
       case 'formatNote':
          listCopy[noteIndex].title = formatText(listCopy[noteIndex].title);
          listCopy[noteIndex].content = formatText(listCopy[noteIndex].content);
@@ -87,11 +92,6 @@ const reduce = (state, action) => {
       case 'changeNoteProperties':
          listCopy[noteIndex][action.value.propertyName] = action.value.newValue;
          return listCopy;
-
-      case 'setNewNote':
-         let newNote = action.value;
-         newNote.id = getFirstFreeId(state);
-         return [...state, newNote];
 
       case 'edit':
          listCopy[noteIndex] = action.value.newVersion;
@@ -109,7 +109,7 @@ const reduce = (state, action) => {
 
       case 'copy':
          noteCopy = { ...state[noteIndex] };
-         noteCopy.id = getFirstFreeId(state);
+         noteCopy.id = getFreeId(state);
          listCopy.splice(noteIndex + 1, 0, noteCopy);
          return listCopy;
 
@@ -123,12 +123,12 @@ const saveNotesInLocalStorage = (notesList) => {
 };
 
 const getArrayOfNotes = () => {
-   return JSON.parse(window.localStorage.getItem('notes'));
+   return JSON.parse(window.localStorage.getItem('notes')) || [];
 };
 export const valueContext = createContext();
 
 function App() {
-   const [listOfNotes, notesModifier] = useReducer(reduce, getArrayOfNotes() || []);
+   const [listOfNotes, notesModifier] = useReducer(reduce, getArrayOfNotes());
 
    let firstRender = useRef(true);
    useEffect(() => {
@@ -156,5 +156,6 @@ function App() {
       </div>
    );
 }
+console.log(App);
 
 export default App;

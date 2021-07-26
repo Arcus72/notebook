@@ -52,7 +52,7 @@ function NoteCreator() {
 
    return (
       <div style={{ background: noteColor }} onClick={() => (!isOpen ? setIsOpen(true) : '')} className='NoteCreator'>
-         <div className='NoteCreator__textConteiner'>
+         <div className='NoteCreator__textContemner'>
             {isOpen && (
                <div className='NoteCreator__titleContainer'>
                   <div
@@ -91,7 +91,7 @@ function NoteCreator() {
                <div>
                   <Palette changeNoteColor={changeNoteColor} currentColor={noteColor} />
                </div>
-               <div className='NoteCreator__rigthOptions'>
+               <div className='NoteCreator__rightOptions'>
                   <span onClick={setNewNote} className='NoteCreator__addBtn'>
                      Dodaj
                   </span>

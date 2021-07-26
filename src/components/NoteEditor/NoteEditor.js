@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import './index.scss';
 import Palette from '../Palette/Palette';
@@ -42,11 +41,11 @@ function NoteEditor({ data, setIsEditing }) {
    };
 
    useEffect(() => {
-      if (titleValueRef.current.innerHTML != '') {
+      if (titleValueRef.current.innerHTML !== '') {
          titleTextHolder.current.style.cssText = 'visibility: hidden';
       }
 
-      if (contentValueRef.current.innerHTML != '') {
+      if (contentValueRef.current.innerHTML !== '') {
          contentTextHolder.current.style.cssText = 'visibility: hidden';
       }
    }, []);
@@ -113,7 +112,7 @@ function NoteEditor({ data, setIsEditing }) {
                   <i title='kopiuj' onClick={copyNote} className='NoteEditor__option fas fa-copy'></i>
                   <Palette changeNoteColor={changeNoteColor} currentColor={data.color} />
                </div>
-               <div className='NoteEditor__rigthOptions'>
+               <div className='NoteEditor__rightOptions'>
                   <span onClick={() => setIsEditing(false)} className='NoteEditor__closeBtn'>
                      Zamknij
                   </span>

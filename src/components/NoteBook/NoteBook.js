@@ -1,6 +1,6 @@
 import React from 'react';
-import NoteCreator from '../NoteCreator/NoteCreator';
-import Note from '../Note/Note';
+import NoteCreator from 'src/components/NoteCreator/NoteCreator';
+import Note from 'src/components/Note/Note';
 import './index.scss';
 
 function NoteBook({ list }) {
