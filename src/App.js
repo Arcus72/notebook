@@ -75,6 +75,7 @@ export const formatText = (text) => text.replace(/^(<div> *<br><\/div>)*|(<div> 
 //TODO: testing for reduce
 export const reduce = (state, action) => {
    const listCopy = [...state];
+   //value.id => id
    let noteIndex = action.type !== 'setNewNote' && getIndex(action.value.id, state);
    let noteCopy;
 
