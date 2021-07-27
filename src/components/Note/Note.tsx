@@ -1,10 +1,12 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import './index.scss';
-import { valueContext } from 'src/App';
+import { valueContext, note, NotesModifier } from 'src/App';
 import Palette from 'src/components/Palette/Palette';
 import NoteEditor from 'src/components/NoteEditor/NoteEditor';
 
-function Note({ data }) {
+function Note({ data }: { data: note }) {
+   console.log('Note');
+
    const { notesModifier } = useContext(valueContext);
    const [isOverflow, setIsOverflow] = useState(false);
    const [isEditing, setIsEditing] = useState(false);
@@ -20,7 +22,7 @@ function Note({ data }) {
    useEffect(() => {
       if (firstRender.current && !isEditing) {
          checkSetOverflowState();
-         notesModifier({ type: 'formatNote', value: { id: data.id } });
+         notesModifier({ type: 'formatNote', id: data.id });
       }
       firstRender.current = true;
    }, [isEditing, notesModifier, data.id]);
@@ -28,22 +30,23 @@ function Note({ data }) {
    useEffect(() => {
       setIsEditing(false);
       setTimeout(checkSetOverflowState, 500);
-      notesModifier({ type: 'formatNote', value: { id: data.id } });
+      notesModifier({ type: 'formatNote', id: data.id });
       //fadeIn
       singleNote.current.classList.add('noteFadeIn');
    }, [notesModifier, data.id]);
 
-   const changeNoteColor = (color) => {
+   const changeNoteColor = (color: string) => {
       if (color !== data.color) {
          data.color = color;
          notesModifier({
-            type: 'edit',
-            value: { id: data.id, newVersion: data },
+            type: 'changeNoteProperties',
+            id: data.id,
+            value: { propertyName: 'color', newValue: color },
          });
       }
    };
 
-   const fadeOut = (fn) => {
+   const fadeOut = (fn: () => NotesModifier) => {
       singleNote.current.classList.remove('noteFadeIn');
       singleNote.current.classList.add('noteFadeOut');
       setTimeout(fn, 500);
@@ -53,13 +56,13 @@ function Note({ data }) {
       fadeOut(() =>
          notesModifier({
             type: 'changePinStatus',
-            value: { id: data.id },
+            id: data.id,
          })
       );
    };
 
    const deleteNote = () => {
-      fadeOut(() => notesModifier({ type: 'delete', value: { id: data.id } }));
+      fadeOut(() => notesModifier({ type: 'delete', id: data.id }));
    };
 
    return (
@@ -87,11 +90,7 @@ function Note({ data }) {
             {isOverflow && <div className='Note__continuationDots'>...</div>}
             <div className='Note__options'>
                <i title='usuń' onClick={deleteNote} className='fas fa-trash'></i>
-               <i
-                  title='kopiuj'
-                  onClick={() => notesModifier({ type: 'copy', value: { id: data.id } })}
-                  className='fas fa-copy'
-               ></i>
+               <i title='kopiuj' onClick={() => notesModifier({ type: 'copy', id: data.id })} className='fas fa-copy'></i>
                <Palette changeNoteColor={changeNoteColor} currentColor={data.color} />
             </div>
          </div>

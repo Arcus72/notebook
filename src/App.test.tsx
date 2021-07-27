@@ -1,7 +1,4 @@
-import { formatText } from 'src/App';
-import { getFreeId } from 'src/App';
-import { reduce } from 'src/App';
-import { getIndex } from 'src/App';
+import { formatText, getFreeId, reduce, getIndex, getArrayOfNotes, saveNotesInLocalStorage } from 'src/App';
 
 let arr = [
    {
@@ -57,11 +54,11 @@ test('Testing getFreeId', () => {
 });
 
 test('Testing Reducer - delete', () => {
-   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', value: { id: 1627289212318 } })).toEqual([arr[1], arr[2]]);
+   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', id: 1627289212318 })).toEqual([arr[1], arr[2]]);
 
-   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', value: { id: 1627289212319 } })).toEqual([arr[0], arr[2]]);
+   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', id: 1627289212319 })).toEqual([arr[0], arr[2]]);
 
-   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', value: { id: 1627289219221 } })).toEqual([arr[0], arr[1]]);
+   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', id: 1627289219221 })).toEqual([arr[0], arr[1]]);
 });
 
 test('Testing Reducer - setNewNote', () => {
@@ -76,9 +73,16 @@ test('Testing Reducer - setNewNote', () => {
    expect(reduce(arr, { type: 'setNewNote', value: arr[1] })).toEqual([...arr, arr[1]]);
 });
 
-//TODO: Testing Reducer - copy
-//TODO: Testing Reducer - edit
-//TODO: Testing Reducer - changePinStatus
-//TODO: Testing Reducer - changeNoteProperties
-//TODO: Testing saveNotesInLocalStorage
-//TODO: Testing getArrayOfNotes
+test('Testing saving and reading localStorage', () => {
+   saveNotesInLocalStorage(arr);
+   expect(getArrayOfNotes()).toEqual(arr);
+   window.localStorage.clear();
+   saveNotesInLocalStorage([]);
+   expect(getArrayOfNotes()).toEqual([]);
+});
+
+console.log(`
+------------------------------------------------------------------------------
+You have to check fn copy, changePinStatus and changeNoteProperties separately
+------------------------------------------------------------------------------
+`);

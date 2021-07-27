@@ -1,10 +1,10 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, FocusEvent } from 'react';
 import './index.scss';
 import { valueContext } from 'src/App';
 import Palette from 'src/components/Palette/Palette';
 
-const showTextHolder = (textHolderRef, e) => {
-   if (e === undefined || e.target?.innerHTML === '') textHolderRef.current.style.cssText = 'visibility: visible';
+const showTextHolder = (textHolderRef, e: FocusEvent<HTMLDivElement> | null) => {
+   if (e === null || e.target?.innerHTML === '') textHolderRef.current.style.cssText = 'visibility: visible';
 };
 
 const hideTextHolder = (textHolderRef) => {
@@ -12,6 +12,7 @@ const hideTextHolder = (textHolderRef) => {
 };
 
 function NoteCreator() {
+   console.log('NoteCreator');
    const [isOpen, setIsOpen] = useState(false);
    const titleTextHolder = useRef();
    const contentTextHolder = useRef();
@@ -37,17 +38,13 @@ function NoteCreator() {
       notesModifier({ type: 'setNewNote', value: newNote });
    };
 
-   const changeNoteColor = (color) => {
-      setNoteColor(color);
-   };
-
    const restartNoteCreator = () => {
       setIsOpen(false);
       setNoteColor('#28292c');
       titleValue.current.textContent = '';
       contentValue.current.textContent = '';
-      showTextHolder(contentTextHolder);
-      showTextHolder(titleTextHolder);
+      showTextHolder(contentTextHolder, null);
+      showTextHolder(titleTextHolder, null);
    };
 
    return (
@@ -89,7 +86,7 @@ function NoteCreator() {
          {isOpen && (
             <div className='NoteCreator__options'>
                <div>
-                  <Palette changeNoteColor={changeNoteColor} currentColor={noteColor} />
+                  <Palette changeNoteColor={setNoteColor} currentColor={noteColor} />
                </div>
                <div className='NoteCreator__rightOptions'>
                   <span onClick={setNewNote} className='NoteCreator__addBtn'>

@@ -1,9 +1,15 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import './index.scss';
 import Palette from 'src/components/Palette/Palette';
-import { valueContext } from 'src/App';
+import { valueContext, note } from 'src/App';
 
-function NoteEditor({ data, setIsEditing }) {
+interface Props {
+   data: note;
+   setIsEditing: (a: boolean) => void;
+}
+
+function NoteEditor({ data, setIsEditing }: Props) {
+   console.log('NoteEditor');
    const titleValueRef = useRef();
    const contentValueRef = useRef();
 
@@ -15,20 +21,20 @@ function NoteEditor({ data, setIsEditing }) {
    const { notesModifier } = useContext(valueContext);
 
    const deleteNote = () => {
-      notesModifier({ type: 'delete', value: { id: data.id } });
+      notesModifier({ type: 'delete', id: data.id });
    };
 
    const copyNote = () => {
-      notesModifier({ type: 'copy', value: { id: data.id } });
+      notesModifier({ type: 'copy', id: data.id });
    };
 
    const showTextHolder = (textHolderRef, e) => {
       if (e === undefined || e.target?.innerHTML === '') textHolderRef.current.style.cssText = 'visibility: visible';
    };
 
-   const changeNoteColor = (color) => {
+   const changeNoteColor = (color: string) => {
       if (color !== data.color) {
-         notesModifier({ type: 'changeNoteProperties', value: { id: data.id, propertyName: 'color', newValue: color } });
+         notesModifier({ type: 'changeNoteProperties', id: data.id, value: { propertyName: 'color', newValue: color } });
       }
    };
 
@@ -64,7 +70,8 @@ function NoteEditor({ data, setIsEditing }) {
                      onKeyUp={(e) =>
                         notesModifier({
                            type: 'changeNoteProperties',
-                           value: { id: data.id, propertyName: 'title', newValue: e.target.innerHTML },
+                           id: data.id,
+                           value: { propertyName: 'title', newValue: e.target.innerHTML },
                         })
                      }
                      dangerouslySetInnerHTML={{ __html: titleValue && titleValue }}
@@ -77,7 +84,7 @@ function NoteEditor({ data, setIsEditing }) {
                         onClick={() =>
                            notesModifier({
                               type: 'changePinStatus',
-                              value: { id: data.id },
+                              id: data.id,
                            })
                         }
                         className=' fas fa-map-pin'
@@ -94,7 +101,8 @@ function NoteEditor({ data, setIsEditing }) {
                      onKeyUp={(e) =>
                         notesModifier({
                            type: 'changeNoteProperties',
-                           value: { id: data.id, propertyName: 'content', newValue: e.target.innerHTML },
+                           id: data.id,
+                           value: { propertyName: 'content', newValue: e.target.innerHTML },
                         })
                      }
                      className='NoteEditor__contentValue'

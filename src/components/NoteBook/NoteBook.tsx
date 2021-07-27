@@ -2,13 +2,15 @@ import React from 'react';
 import NoteCreator from 'src/components/NoteCreator/NoteCreator';
 import Note from 'src/components/Note/Note';
 import './index.scss';
+import { note } from 'src/App';
 
-function NoteBook({ list }) {
-   const pined = list.filter((note) => {
+function NoteBook({ list }: { list: note[] }) {
+   console.log('NoteBook');
+   const pined = list.filter((note: note) => {
       return note.isPined === true;
    });
 
-   const notPined = list.filter((note) => {
+   const notPined = list.filter((note: note) => {
       return note.isPined === false;
    });
 
@@ -18,13 +20,13 @@ function NoteBook({ list }) {
          <div className='NoteBook__main'>
             {pined.length !== 0 && <span className='NoteBook__category'>Przypięte</span>}
             <div className='NoteBook__noteDisplay'>
-               {pined.map((item) => (
+               {pined.map((item: note) => (
                   <Note key={item.id} data={item} />
                ))}
             </div>
             {notPined.length !== 0 && <span className='NoteBook__category'>Inne</span>}
             <div className='NoteBook__noteDisplay'>
-               {notPined.map((item) => (
+               {notPined.map((item: note) => (
                   <Note key={item.id} data={item} />
                ))}
             </div>

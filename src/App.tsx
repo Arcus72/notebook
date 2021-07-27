@@ -1,13 +1,31 @@
 //
 //TODO: zmiana na TypeScript
 //TODO: callback/memo
-//TODO: Try,catch
 //
-import './App.scss';
 import React, { useReducer, createContext, useEffect, useRef } from 'react';
+import './App.scss';
 import NoteBook from 'src/components/NoteBook/NoteBook';
 
-const colorList = [
+export interface note {
+   id: number;
+   title: string;
+   content: string;
+   color: string;
+   isPined: boolean;
+}
+
+export interface color {
+   name: string;
+   value: string;
+}
+
+interface NotesModifier {
+   type: 'setNewNote' | 'formatNote' | 'changeNoteProperties' | 'changePinStatus' | 'delete' | 'copy';
+   id: number;
+   value?: any;
+}
+
+const colorList: color[] = [
    {
       name: 'Czarny',
       value: '#28292c',
@@ -58,9 +76,9 @@ const colorList = [
    },
 ];
 
-export const getIndex = (id, arr) => arr.findIndex((item) => item.id === id);
+export const getIndex = (id: number, list: note[]): number => list.findIndex((item) => item.id === id);
 
-export const getFreeId = (list, id = new Date().getTime()) => {
+export const getFreeId = (list: note[], id = new Date().getTime()): number => {
    while (true) {
       let index = getIndex(id, list);
       if (index === -1) return id;
@@ -68,12 +86,12 @@ export const getFreeId = (list, id = new Date().getTime()) => {
    }
 };
 
-export const formatText = (text) => text.replace(/^(<div> *<br><\/div>)*|(<div> *<br><\/div>)*$/gm, '') || '';
-
-export const reduce = (state, action) => {
+export const formatText = (text: string) => text.replace(/^(<div> *<br><\/div>)*|(<div> *<br><\/div>)*$/gm, '') || '';
+//TODO: value{id} -> value i id
+export const reduce = (state: note[], action: NotesModifier) => {
    const listCopy = [...state];
    //value.id => id
-   let noteIndex = action.type !== 'setNewNote' && getIndex(action.value.id, state);
+   let noteIndex = getIndex(action.id, state);
    let noteCopy;
 
    switch (action.type) {
@@ -85,14 +103,10 @@ export const reduce = (state, action) => {
       case 'formatNote':
          listCopy[noteIndex].title = formatText(listCopy[noteIndex].title);
          listCopy[noteIndex].content = formatText(listCopy[noteIndex].content);
-
          return listCopy;
+
       case 'changeNoteProperties':
          listCopy[noteIndex][action.value.propertyName] = action.value.newValue;
-         return listCopy;
-
-      case 'edit':
-         listCopy[noteIndex] = action.value.newVersion;
          return listCopy;
 
       case 'changePinStatus':
@@ -116,14 +130,30 @@ export const reduce = (state, action) => {
    }
 };
 
-export const saveNotesInLocalStorage = (notesList) => window.localStorage.setItem('notes', JSON.stringify(notesList));
+export const saveNotesInLocalStorage = (notesList: note[]) => window.localStorage.setItem('notes', JSON.stringify(notesList));
 
-export const getArrayOfNotes = () => JSON.parse(window.localStorage.getItem('notes')) || [];
-
-export const valueContext = createContext();
+export const getArrayOfNotes = () => {
+   let result;
+   try {
+      result = JSON.parse(window.localStorage.getItem('notes') || '[]');
+   } catch (e) {
+      alert('Nie prawidłowy zapis danych.\n Zalecamy odświeżyć stronę');
+      return [];
+   }
+   return result;
+};
+//FIXME: does this context work?
+export let valueContext: any;
 
 function App() {
+   console.log('App');
+
    const [listOfNotes, notesModifier] = useReducer(reduce, getArrayOfNotes());
+
+   valueContext = createContext({
+      colorList: colorList,
+      notesModifier: notesModifier,
+   });
 
    let firstRender = useRef(true);
    useEffect(() => {
@@ -151,6 +181,5 @@ function App() {
       </div>
    );
 }
-console.log(App);
 
 export default App;
