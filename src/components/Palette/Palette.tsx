@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { valueContext } from 'src/App';
 import './index.scss';
-import { color } from 'src/App';
+import { Color } from 'src/App';
 type ChangeNoteColor = (color: string) => void;
 function Palette({ changeNoteColor, currentColor = '#28292c' }: { changeNoteColor: ChangeNoteColor; currentColor: string }) {
    console.log('Palette');
    const { colorList } = useContext(valueContext);
-   const colorPalette = colorList.map(({ name, value }: color, index: number) => (
+   const colorPalette = colorList.map(({ name, value }: Color, index: number) => (
       <span
          title={name}
          key={index}

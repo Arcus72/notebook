@@ -1,20 +1,21 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import './index.scss';
-import { valueContext, note, NotesModifier } from 'src/App';
+import { valueContext, note, Action } from 'src/App';
 import Palette from 'src/components/Palette/Palette';
 import NoteEditor from 'src/components/NoteEditor/NoteEditor';
-
-function Note({ data }: { data: note }) {
+//FIXME: kropki
+type Props = { data: note };
+function Note({ data }: Props) {
    console.log('Note');
 
    const { notesModifier } = useContext(valueContext);
    const [isOverflow, setIsOverflow] = useState(false);
    const [isEditing, setIsEditing] = useState(false);
-   const textContainerRef = useRef();
-   const singleNote = useRef();
+   const textContainerRef = useRef<HTMLDivElement>(null);
+   const singleNote = useRef<HTMLDivElement>(null);
 
    const checkSetOverflowState = () => {
-      let i = textContainerRef.current.scrollHeight - textContainerRef.current.clientHeight;
+      let i = textContainerRef?.current?.scrollHeight || 0 - (textContainerRef?.current?.clientHeight || 0);
       i > 5 ? setIsOverflow(true) : setIsOverflow(false);
    };
 
@@ -32,7 +33,7 @@ function Note({ data }: { data: note }) {
       setTimeout(checkSetOverflowState, 500);
       notesModifier({ type: 'formatNote', id: data.id });
       //fadeIn
-      singleNote.current.classList.add('noteFadeIn');
+      singleNote?.current?.classList.add('noteFadeIn');
    }, [notesModifier, data.id]);
 
    const changeNoteColor = (color: string) => {
@@ -46,9 +47,9 @@ function Note({ data }: { data: note }) {
       }
    };
 
-   const fadeOut = (fn: () => NotesModifier) => {
-      singleNote.current.classList.remove('noteFadeIn');
-      singleNote.current.classList.add('noteFadeOut');
+   const fadeOut = (fn: (arg0: Action) => void) => {
+      singleNote?.current?.classList.remove('noteFadeIn');
+      singleNote?.current?.classList.add('noteFadeOut');
       setTimeout(fn, 500);
    };
 

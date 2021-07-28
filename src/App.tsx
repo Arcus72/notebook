@@ -1,5 +1,4 @@
 //
-//TODO: zmiana na TypeScript
 //TODO: callback/memo
 //
 import React, { useReducer, createContext, useEffect, useRef } from 'react';
@@ -14,18 +13,35 @@ export interface note {
    isPined: boolean;
 }
 
-export interface color {
+export interface Color {
    name: string;
    value: string;
 }
 
-interface NotesModifier {
-   type: 'setNewNote' | 'formatNote' | 'changeNoteProperties' | 'changePinStatus' | 'delete' | 'copy';
+interface ActionById {
+   type: 'formatNote' | 'delete' | 'changePinStatus' | 'copy';
    id: number;
-   value?: any;
 }
 
-const colorList: color[] = [
+interface SetNewNote {
+   type: 'setNewNote';
+   value: note;
+}
+
+interface ChangeNoteProperties {
+   type: 'changeNoteProperties';
+   id: number;
+   value: { propertyName: 'title' | 'content' | 'color'; newValue: string };
+}
+
+export type Action = ActionById | SetNewNote | ChangeNoteProperties;
+
+interface ValueContext {
+   colorList: Color[];
+   notesModifier: (arg0: Action) => void;
+}
+
+const colorList: Color[] = [
    {
       name: 'Czarny',
       value: '#28292c',
@@ -87,11 +103,11 @@ export const getFreeId = (list: note[], id = new Date().getTime()): number => {
 };
 
 export const formatText = (text: string) => text.replace(/^(<div> *<br><\/div>)*|(<div> *<br><\/div>)*$/gm, '') || '';
-//TODO: value{id} -> value i id
-export const reduce = (state: note[], action: NotesModifier) => {
+
+export const reduce = (state: note[], action: Action) => {
    const listCopy = [...state];
    //value.id => id
-   let noteIndex = getIndex(action.id, state);
+   let noteIndex: number;
    let noteCopy;
 
    switch (action.type) {
@@ -101,25 +117,31 @@ export const reduce = (state: note[], action: NotesModifier) => {
          return [...state, newNote];
 
       case 'formatNote':
+         noteIndex = getIndex(action.id, state);
          listCopy[noteIndex].title = formatText(listCopy[noteIndex].title);
          listCopy[noteIndex].content = formatText(listCopy[noteIndex].content);
          return listCopy;
 
       case 'changeNoteProperties':
+         noteIndex = getIndex(action.id, state);
          listCopy[noteIndex][action.value.propertyName] = action.value.newValue;
+
          return listCopy;
 
       case 'changePinStatus':
+         noteIndex = getIndex(action.id, state);
          noteCopy = { ...listCopy[noteIndex] };
          noteCopy.isPined = !noteCopy.isPined;
          listCopy.splice(noteIndex, 1);
          return [noteCopy, ...listCopy];
 
       case 'delete':
+         noteIndex = getIndex(action.id, state);
          listCopy.splice(noteIndex, 1);
          return listCopy;
 
       case 'copy':
+         noteIndex = getIndex(action.id, state);
          noteCopy = { ...state[noteIndex] };
          noteCopy.id = getFreeId(state);
          listCopy.splice(noteIndex + 1, 0, noteCopy);
@@ -143,17 +165,18 @@ export const getArrayOfNotes = () => {
    return result;
 };
 //FIXME: does this context work?
-export let valueContext: any;
+const defaultValueContext = {
+   colorList: colorList,
+   notesModifier: (arg0: Action) => {
+      console.log(arg0);
+   },
+};
+export const valueContext = createContext<ValueContext>(defaultValueContext);
 
 function App() {
    console.log('App');
 
    const [listOfNotes, notesModifier] = useReducer(reduce, getArrayOfNotes());
-
-   valueContext = createContext({
-      colorList: colorList,
-      notesModifier: notesModifier,
-   });
 
    let firstRender = useRef(true);
    useEffect(() => {

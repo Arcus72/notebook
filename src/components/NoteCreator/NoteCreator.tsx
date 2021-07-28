@@ -1,36 +1,42 @@
-import React, { useState, useRef, useContext, FocusEvent } from 'react';
+import React, { useState, useRef, useContext, FocusEvent, RefObject } from 'react';
 import './index.scss';
 import { valueContext } from 'src/App';
 import Palette from 'src/components/Palette/Palette';
 
-const showTextHolder = (textHolderRef, e: FocusEvent<HTMLDivElement> | null) => {
-   if (e === null || e.target?.innerHTML === '') textHolderRef.current.style.cssText = 'visibility: visible';
+const showTextHolder = (textHolderRef: RefObject<HTMLDivElement>, e: FocusEvent<HTMLDivElement> | null) => {
+   if (e === null || e.target?.innerHTML === '') {
+      if (textHolderRef && textHolderRef.current) {
+         textHolderRef.current.style.cssText = 'visibility: visible';
+      }
+   }
 };
 
-const hideTextHolder = (textHolderRef) => {
-   textHolderRef.current.style.cssText = 'visibility: hidden';
+const hideTextHolder = (textHolderRef: RefObject<HTMLDivElement>) => {
+   if (textHolderRef && textHolderRef.current) {
+      textHolderRef.current.style.cssText = 'visibility: hidden';
+   }
 };
 
 function NoteCreator() {
    console.log('NoteCreator');
    const [isOpen, setIsOpen] = useState(false);
-   const titleTextHolder = useRef();
-   const contentTextHolder = useRef();
+   const titleTextHolder = useRef<HTMLDivElement>(null);
+   const contentTextHolder = useRef<HTMLDivElement>(null);
 
    //Value to create Note
-   const titleValue = useRef();
-   const contentValue = useRef();
+   const titleValue = useRef<HTMLDivElement>(null);
+   const contentValue = useRef<HTMLDivElement>(null);
    const [noteColor, setNoteColor] = useState('#28292c');
    const [isPined, changePinStatus] = useState(false);
 
    const { notesModifier } = useContext(valueContext);
 
    const setNewNote = () => {
-      if (titleValue.current.textContent.trim() === '' && contentValue.current.textContent.trim() === '') return 1;
+      if (titleValue?.current?.textContent?.trim() === '' && contentValue?.current?.textContent?.trim() === '') return 1;
       let newNote = {
-         id: null,
-         title: titleValue.current.innerHTML,
-         content: contentValue.current.innerHTML,
+         id: 0,
+         title: titleValue?.current?.innerHTML || '',
+         content: contentValue?.current?.innerHTML || '',
          color: noteColor,
          isPined: isPined,
       };
@@ -41,8 +47,8 @@ function NoteCreator() {
    const restartNoteCreator = () => {
       setIsOpen(false);
       setNoteColor('#28292c');
-      titleValue.current.textContent = '';
-      contentValue.current.textContent = '';
+      if (titleValue && titleValue.current) titleValue.current.textContent = '';
+      if (contentValue && contentValue.current) contentValue.current.textContent = '';
       showTextHolder(contentTextHolder, null);
       showTextHolder(titleTextHolder, null);
    };

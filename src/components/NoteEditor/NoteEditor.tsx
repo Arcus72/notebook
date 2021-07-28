@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, { useRef, useEffect, useState, useContext, RefObject, FocusEvent } from 'react';
 import './index.scss';
 import Palette from 'src/components/Palette/Palette';
 import { valueContext, note } from 'src/App';
@@ -10,11 +10,11 @@ interface Props {
 
 function NoteEditor({ data, setIsEditing }: Props) {
    console.log('NoteEditor');
-   const titleValueRef = useRef();
-   const contentValueRef = useRef();
+   const titleValueRef = useRef<HTMLDivElement>(null);
+   const contentValueRef = useRef<HTMLDivElement>(null);
 
-   const titleTextHolder = useRef();
-   const contentTextHolder = useRef();
+   const titleTextHolder = useRef<HTMLDivElement>(null);
+   const contentTextHolder = useRef<HTMLDivElement>(null);
 
    const [titleValue] = useState(data.title);
    const [contentValue] = useState(data.content);
@@ -28,8 +28,9 @@ function NoteEditor({ data, setIsEditing }: Props) {
       notesModifier({ type: 'copy', id: data.id });
    };
 
-   const showTextHolder = (textHolderRef, e) => {
-      if (e === undefined || e.target?.innerHTML === '') textHolderRef.current.style.cssText = 'visibility: visible';
+   const showTextHolder = (textHolderRef: RefObject<HTMLDivElement>, e: FocusEvent<HTMLDivElement>) => {
+      if (textHolderRef.current && (e === undefined || e.target?.innerHTML === ''))
+         textHolderRef.current.style.cssText = 'visibility: visible';
    };
 
    const changeNoteColor = (color: string) => {
@@ -38,21 +39,24 @@ function NoteEditor({ data, setIsEditing }: Props) {
       }
    };
 
-   const hideTextHolder = (textHolderRef) => {
-      textHolderRef.current.style.cssText = 'visibility: hidden';
+   const hideTextHolder = (textHolderRef: RefObject<HTMLDivElement>) => {
+      if (textHolderRef?.current) {
+         textHolderRef.current.style.cssText = 'visibility: hidden';
+      }
    };
-
-   const closeEditor = (e) => {
+   const closeEditor = (e: any) => {
       if (e.target.className === 'curtain') setIsEditing(false);
    };
 
    useEffect(() => {
-      if (titleValueRef.current.innerHTML !== '') {
-         titleTextHolder.current.style.cssText = 'visibility: hidden';
-      }
+      if (titleValueRef?.current && titleTextHolder?.current && contentValueRef?.current && contentTextHolder?.current) {
+         if (titleValueRef.current.innerHTML !== '') {
+            titleTextHolder.current.style.cssText = 'visibility: hidden';
+         }
 
-      if (contentValueRef.current.innerHTML !== '') {
-         contentTextHolder.current.style.cssText = 'visibility: hidden';
+         if (contentValueRef.current.innerHTML !== '') {
+            contentTextHolder.current.style.cssText = 'visibility: hidden';
+         }
       }
    }, []);
 
@@ -71,7 +75,7 @@ function NoteEditor({ data, setIsEditing }: Props) {
                         notesModifier({
                            type: 'changeNoteProperties',
                            id: data.id,
-                           value: { propertyName: 'title', newValue: e.target.innerHTML },
+                           value: { propertyName: 'title', newValue: e.currentTarget.innerHTML },
                         })
                      }
                      dangerouslySetInnerHTML={{ __html: titleValue && titleValue }}
@@ -102,7 +106,7 @@ function NoteEditor({ data, setIsEditing }: Props) {
                         notesModifier({
                            type: 'changeNoteProperties',
                            id: data.id,
-                           value: { propertyName: 'content', newValue: e.target.innerHTML },
+                           value: { propertyName: 'content', newValue: e.currentTarget.innerHTML },
                         })
                      }
                      className='NoteEditor__contentValue'

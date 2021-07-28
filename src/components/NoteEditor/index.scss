@@ -1,5 +1,5 @@
 .curtain {
-   z-index: 999;
+   z-index: 500;
    position: fixed;
    top: 0;
    left: 0;
@@ -19,6 +19,7 @@
 }
 
 .NoteEditor {
+   z-index: 999;
    color: white;
    border: 1px #9aa0a6 solid;
    border-radius: 1vw;
