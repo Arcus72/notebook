@@ -1,3 +1,15 @@
+///
+//TODO: Code optimization
+//TODO: add useCallback
+//TODO: use memo
+//TODO: use UseMemo
+//TODO: wirtualizacja list: https://pl.reactjs.org/docs/optimizing-performance.html#virtualize-long-lists
+//TODO: optimization animation
+//TODO: check useEffect
+//TODO: lokalne ikony
+//TODO: error bundlers
+///
+
 import React, { useReducer, createContext, useEffect, useRef } from 'react';
 import './App.scss';
 import NoteBook from 'src/components/NoteBook/NoteBook';
