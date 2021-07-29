@@ -6,7 +6,7 @@
 
 -  ReactJs
 -  SCSS
-
+- TypeScript
 ## Server
 
 ### To run server:
