@@ -77,11 +77,10 @@ $iconColor: #bdc3c7;
       padding: 2px;
    }
    &__titleValue {
-      width: 100%;
-      font-size: 25px;
-      background: none;
-      border: none;
-      word-wrap: break-word;
+      font-size: 30px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
    }
    &__pinIcon {
       opacity: 0;
@@ -112,6 +111,9 @@ $iconColor: #bdc3c7;
    &__content {
       font-size: 20px;
       word-wrap: break-word;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
    }
    &__options {
       i {

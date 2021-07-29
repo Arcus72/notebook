@@ -3,7 +3,7 @@ import './index.scss';
 import { valueContext, note, Action } from 'src/App';
 import Palette from 'src/components/Palette/Palette';
 import NoteEditor from 'src/components/NoteEditor/NoteEditor';
-//FIXME: kropki
+
 type Props = { data: note };
 function Note({ data }: Props) {
    console.log('Note');
@@ -16,7 +16,8 @@ function Note({ data }: Props) {
 
    const checkSetOverflowState = () => {
       let i = textContainerRef?.current?.scrollHeight || 0 - (textContainerRef?.current?.clientHeight || 0);
-      i > 5 ? setIsOverflow(true) : setIsOverflow(false);
+      console.log(i);
+      i > 70 ? setIsOverflow(true) : setIsOverflow(false);
    };
 
    const firstRender = useRef(false);
@@ -71,15 +72,14 @@ function Note({ data }: Props) {
          <div style={{ background: data.color, visibility: isEditing ? 'hidden' : 'visible' }} ref={singleNote} className='Note'>
             <div ref={textContainerRef} className='Note__textContainer'>
                <header className='Note__title'>
-                  <div className='Note__titleValue'>
-                     <div onClick={changePinStatus} className={`Note__pinIcon ${data.isPined ? 'Note__pinIcon--pined' : ''}`}>
-                        <i className='fas fa-map-pin'></i>
-                     </div>
-                     <div
-                        dangerouslySetInnerHTML={{ __html: data.title ? data.title : '<br />' }}
-                        onClick={() => setIsEditing(true)}
-                     ></div>
+                  <div onClick={changePinStatus} className={`Note__pinIcon ${data.isPined ? 'Note__pinIcon--pined' : ''}`}>
+                     <i className='fas fa-map-pin'></i>
                   </div>
+                  <div
+                     className='Note__titleValue'
+                     dangerouslySetInnerHTML={{ __html: data.title ? data.title : '<br />' }}
+                     onClick={() => setIsEditing(true)}
+                  ></div>
                </header>
 
                <div

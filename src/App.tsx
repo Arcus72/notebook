@@ -1,6 +1,3 @@
-//
-//TODO: callback/memo
-//
 import React, { useReducer, createContext, useEffect, useRef } from 'react';
 import './App.scss';
 import NoteBook from 'src/components/NoteBook/NoteBook';
@@ -164,7 +161,6 @@ export const getArrayOfNotes = () => {
    }
    return result;
 };
-//FIXME: does this context work?
 const defaultValueContext = {
    colorList: colorList,
    notesModifier: (arg0: Action) => {
