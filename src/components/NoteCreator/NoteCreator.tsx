@@ -1,7 +1,9 @@
 import React, { useState, useRef, useContext, FocusEvent, RefObject } from 'react';
 import './index.scss';
-import { valueContext } from 'src/App';
+import { valueContext } from 'src/components/NoteBook/NoteBook';
 import Palette from 'src/components/Palette/Palette';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapPin } from '@fortawesome/free-solid-svg-icons';
 
 const showTextHolder = (textHolderRef: RefObject<HTMLDivElement>, e: FocusEvent<HTMLDivElement> | null) => {
    if (e === null || e.target?.innerHTML === '') {
@@ -72,7 +74,7 @@ function NoteCreator() {
                      onClick={() => changePinStatus(isPined ? false : true)}
                      className={`NoteCreator__pin ${isPined ? 'NoteCreator__pin--pined' : ''}`}
                   >
-                     <i className=' fas fa-map-pin'></i>
+                     <FontAwesomeIcon icon={faMapPin} />
                   </div>
                </div>
             )}

@@ -1,8 +1,10 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useRef, useEffect, memo } from 'react';
 import './index.scss';
-import { valueContext, note, Action } from 'src/App';
+import { valueContext, note, Action } from 'src/components/NoteBook/NoteBook';
 import Palette from 'src/components/Palette/Palette';
 import NoteEditor from 'src/components/NoteEditor/NoteEditor';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faCopy, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
 type Props = { data: note };
 function Note({ data }: Props) {
@@ -16,7 +18,6 @@ function Note({ data }: Props) {
 
    const checkSetOverflowState = () => {
       let i = textContainerRef?.current?.scrollHeight || 0 - (textContainerRef?.current?.clientHeight || 0);
-      console.log(i);
       i > 70 ? setIsOverflow(true) : setIsOverflow(false);
    };
 
@@ -24,6 +25,7 @@ function Note({ data }: Props) {
    useEffect(() => {
       if (firstRender.current && !isEditing) {
          checkSetOverflowState();
+
          notesModifier({ type: 'formatNote', id: data.id });
       }
       firstRender.current = true;
@@ -33,7 +35,6 @@ function Note({ data }: Props) {
       setIsEditing(false);
       setTimeout(checkSetOverflowState, 500);
       notesModifier({ type: 'formatNote', id: data.id });
-      //fadeIn
       singleNote?.current?.classList.add('noteFadeIn');
    }, [notesModifier, data.id]);
 
@@ -73,7 +74,7 @@ function Note({ data }: Props) {
             <div ref={textContainerRef} className='Note__textContainer'>
                <header className='Note__title'>
                   <div onClick={changePinStatus} className={`Note__pinIcon ${data.isPined ? 'Note__pinIcon--pined' : ''}`}>
-                     <i className='fas fa-map-pin'></i>
+                     <FontAwesomeIcon icon={faMapPin} />
                   </div>
                   <div
                      className='Note__titleValue'
@@ -90,8 +91,9 @@ function Note({ data }: Props) {
             </div>
             {isOverflow && <div className='Note__continuationDots'>...</div>}
             <div className='Note__options'>
-               <i title='usuń' onClick={deleteNote} className='fas fa-trash'></i>
-               <i title='kopiuj' onClick={() => notesModifier({ type: 'copy', id: data.id })} className='fas fa-copy'></i>
+               <FontAwesomeIcon title='usuń' onClick={deleteNote} icon={faTrash} />
+               <FontAwesomeIcon icon={faCopy} title='kopiuj' onClick={() => notesModifier({ type: 'copy', id: data.id })} />
+
                <Palette changeNoteColor={changeNoteColor} currentColor={data.color} />
             </div>
          </div>
@@ -100,4 +102,4 @@ function Note({ data }: Props) {
    );
 }
 
-export default Note;
+export default memo(Note);

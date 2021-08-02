@@ -1,7 +1,9 @@
-import React, { useRef, useEffect, useState, useContext, RefObject, FocusEvent } from 'react';
+import React, { useRef, useEffect, useState, useContext, RefObject, FocusEvent, memo } from 'react';
 import './index.scss';
 import Palette from 'src/components/Palette/Palette';
-import { valueContext, note } from 'src/App';
+import { valueContext, note } from 'src/components/NoteBook/NoteBook';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faCopy, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
    data: note;
@@ -84,15 +86,15 @@ function NoteEditor({ data, setIsEditing }: Props) {
                      Tytuł
                   </div>
                   <div className={`NoteEditor__pin ${data.isPined && 'NoteEditor__pin--pined'}`}>
-                     <i
+                     <FontAwesomeIcon
                         onClick={() =>
                            notesModifier({
                               type: 'changePinStatus',
                               id: data.id,
                            })
                         }
-                        className=' fas fa-map-pin'
-                     ></i>
+                        icon={faMapPin}
+                     />
                   </div>
                </div>
 
@@ -120,8 +122,8 @@ function NoteEditor({ data, setIsEditing }: Props) {
 
             <div className='NoteEditor__options'>
                <div>
-                  <i title='usuń' onClick={deleteNote} className='NoteEditor__option fas fa-trash'></i>
-                  <i title='kopiuj' onClick={copyNote} className='NoteEditor__option fas fa-copy'></i>
+                  <FontAwesomeIcon title='usuń' icon={faTrash} onClick={deleteNote} />
+                  <FontAwesomeIcon title='kopiuj' icon={faCopy} onClick={copyNote} />
                   <Palette changeNoteColor={changeNoteColor} currentColor={data.color} />
                </div>
                <div className='NoteEditor__rightOptions'>
@@ -135,4 +137,4 @@ function NoteEditor({ data, setIsEditing }: Props) {
    );
 }
 
-export default NoteEditor;
+export default memo(NoteEditor);
