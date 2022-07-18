@@ -21,17 +21,38 @@
    }
    $iconColor: #bdc3c7;
    &__pin {
-      float: right;
-      font-size: 30px;
-      -webkit-text-stroke-width: 1px;
-      -webkit-text-stroke-color: $iconColor;
-      color: rgba(0, 0, 0, 0);
-      padding: 0px 5px;
+      svg {
+         color: rgba(0, 0, 0, 0);
+         padding-top: 2px;
+         transition: opacity 0.3s ease;
+         float: right;
+         font-size: 30px;
+
+         path {
+            stroke-width: 25px;
+            stroke: $iconColor;
+         }
+
+         &:hover {
+            path {
+               stroke-width: 0px;
+               color: #fff;
+            }
+         }
+      }
 
       &--pined {
-         -webkit-text-stroke-width: 0px;
-         -webkit-text-stroke-color: $iconColor;
-         color: #fff;
+         path {
+            stroke-width: 0px !important;
+            color: #fff;
+         }
+         &:hover {
+            path {
+               stroke-width: 25px !important;
+               stroke: $iconColor;
+               color: rgba(0, 0, 0, 0) !important;
+            }
+         }
       }
    }
 

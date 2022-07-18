@@ -52,7 +52,7 @@ $iconColor: #bdc3c7;
    &:hover {
       .Note {
          &__pinIcon,
-         &__options i {
+         &__options {
             opacity: 1;
          }
       }
@@ -64,7 +64,7 @@ $iconColor: #bdc3c7;
    border-radius: 15px;
    opacity: 0;
    color: white;
-   padding: 8px;
+   padding: 5px;
    margin: 8px;
    justify-content: space-between;
 
@@ -82,29 +82,40 @@ $iconColor: #bdc3c7;
       overflow: hidden;
       text-overflow: ellipsis;
    }
+
    &__pinIcon {
       opacity: 0;
-      transition: opacity 0.3s ease;
-      float: right;
-      font-size: 25px;
-      -webkit-text-stroke-width: 1px;
-      -webkit-text-stroke-color: $iconColor;
-      color: rgba(0, 0, 0, 0);
-      padding: 0px 5px;
-      &:hover {
-         -webkit-text-stroke-width: 0px;
-         -webkit-text-stroke-color: $iconColor;
-         color: #fff;
+      svg {
+         color: rgba(0, 0, 0, 0);
+         margin-top: -5px;
+         transition: opacity 0.3s ease;
+         float: right;
+         font-size: 50px;
+
+         path {
+            stroke-width: 25px;
+            stroke: $iconColor;
+         }
+         padding: 0px 5px;
+         &:hover {
+            path {
+               stroke-width: 0px;
+               color: #fff;
+            }
+         }
       }
 
       &--pined {
-         -webkit-text-stroke-width: 0px;
-         -webkit-text-stroke-color: $iconColor;
-         color: #fff;
+         path {
+            stroke-width: 0px !important;
+            color: #fff;
+         }
          &:hover {
-            -webkit-text-stroke-width: 1px;
-            -webkit-text-stroke-color: $iconColor;
-            color: rgba(0, 0, 0, 0);
+            path {
+               stroke-width: 25px !important;
+               stroke: $iconColor;
+               color: rgba(0, 0, 0, 0) !important;
+            }
          }
       }
    }
@@ -115,24 +126,31 @@ $iconColor: #bdc3c7;
       overflow: hidden;
       text-overflow: ellipsis;
    }
+
    &__options {
-      i {
-         opacity: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      svg {
          text-align: center;
-         font-size: 20px;
-         -webkit-text-stroke-width: 1px;
-         -webkit-text-stroke-color: $iconColor;
+         font-size: 35px;
          color: rgba(0, 0, 0, 0);
-         transition: opacity 0.3s ease;
          padding: {
             top: 8px;
-            right: 12px;
+            right: 8px;
+         }
+
+         path {
+            transition: color 0.2s ease, stroke-width 0.2s ease;
+            stroke: #bdc3c7;
+            stroke-width: 25px;
          }
 
          &:hover {
-            -webkit-text-stroke-width: 0px;
-            -webkit-text-stroke-color: $iconColor;
-            color: #fff;
+            path {
+               stroke: $iconColor;
+               stroke-width: 0px;
+               color: #fff;
+            }
          }
       }
    }

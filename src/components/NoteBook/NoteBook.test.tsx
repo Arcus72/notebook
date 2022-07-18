@@ -1,4 +1,11 @@
-import { formatText, getFreeId, reduce, getIndex, getArrayOfNotes, saveNotesInLocalStorage } from 'src/App';
+import {
+   formatText,
+   getFreeId,
+   reduce,
+   getIndex,
+   getArrayOfNotes,
+   saveNotesInLocalStorage,
+} from './NoteBook';
 
 let arr = [
    {
@@ -8,7 +15,13 @@ let arr = [
       color: '#16504B',
       isPined: false,
    },
-   { id: 1627289212319, title: '<div>sdfsdf</div>', content: '<div>sdfsdf</div>', color: '#16504B', isPined: false },
+   {
+      id: 1627289212319,
+      title: '<div>sdfsdf</div>',
+      content: '<div>sdfsdf</div>',
+      color: '#16504B',
+      isPined: false,
+   },
    { id: 1627289219221, title: 'sdsdfffssfsf', content: '', color: '#28292c', isPined: false },
    { id: 1627289232359, title: '<br>', content: 'jsjdkkfks', color: '#28292c', isPined: false },
    { id: 1627289477412, title: '<br>', content: 'jsjdkkfks', color: '#28292c', isPined: false },
@@ -19,7 +32,9 @@ let arr = [
 
 test('Testing note text formating', () => {
    expect(formatText('asdf')).toBe('asdf');
-   expect(formatText('<div>sdfsdf</div><div><br></div><div><br></div><div><br></div><div><br></div>')).toBe('<div>sdfsdf</div>');
+   expect(
+      formatText('<div>sdfsdf</div><div><br></div><div><br></div><div><br></div><div><br></div>')
+   ).toBe('<div>sdfsdf</div>');
    expect(formatText('<br>')).toBe('<br>');
    expect(formatText('<div><br></div><div><br></div>')).toBe('');
    expect(formatText('&nbsp;')).toBe('&nbsp;');
@@ -29,8 +44,12 @@ test('Testing note text formating', () => {
       )
    ).toBe('<div>dagadfg</div><div>sdfg sdfg</div><div>sdfg</div>');
    expect(
-      formatText('<div>dagadfg</div><div>sdfg sdfg</div><div>sdfg</div><div><br></div><div>&lt;div&gt;&lt;/div&gt;<br></div>')
-   ).toBe('<div>dagadfg</div><div>sdfg sdfg</div><div>sdfg</div><div><br></div><div>&lt;div&gt;&lt;/div&gt;<br></div>');
+      formatText(
+         '<div>dagadfg</div><div>sdfg sdfg</div><div>sdfg</div><div><br></div><div>&lt;div&gt;&lt;/div&gt;<br></div>'
+      )
+   ).toBe(
+      '<div>dagadfg</div><div>sdfg sdfg</div><div>sdfg</div><div><br></div><div>&lt;div&gt;&lt;/div&gt;<br></div>'
+   );
    expect(formatText('')).toBe('');
 });
 
@@ -54,19 +73,37 @@ test('Testing getFreeId', () => {
 });
 
 test('Testing Reducer - delete', () => {
-   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', id: 1627289212318 })).toEqual([arr[1], arr[2]]);
+   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', id: 1627289212318 })).toEqual([
+      arr[1],
+      arr[2],
+   ]);
 
-   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', id: 1627289212319 })).toEqual([arr[0], arr[2]]);
+   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', id: 1627289212319 })).toEqual([
+      arr[0],
+      arr[2],
+   ]);
 
-   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', id: 1627289219221 })).toEqual([arr[0], arr[1]]);
+   expect(reduce([arr[0], arr[1], arr[2]], { type: 'delete', id: 1627289219221 })).toEqual([
+      arr[0],
+      arr[1],
+   ]);
 });
 
 test('Testing Reducer - setNewNote', () => {
    expect(reduce([arr[0]], { type: 'setNewNote', value: arr[1] })).toEqual([arr[0], arr[1]]);
 
-   expect(reduce([arr[0], arr[4], arr[2]], { type: 'setNewNote', value: arr[1] })).toEqual([arr[0], arr[4], arr[2], arr[1]]);
+   expect(reduce([arr[0], arr[4], arr[2]], { type: 'setNewNote', value: arr[1] })).toEqual([
+      arr[0],
+      arr[4],
+      arr[2],
+      arr[1],
+   ]);
 
-   expect(reduce([arr[2], arr[1]], { type: 'setNewNote', value: arr[4] })).toEqual([arr[2], arr[1], arr[4]]);
+   expect(reduce([arr[2], arr[1]], { type: 'setNewNote', value: arr[4] })).toEqual([
+      arr[2],
+      arr[1],
+      arr[4],
+   ]);
 
    expect(reduce([], { type: 'setNewNote', value: arr[1] })).toEqual([arr[1]]);
 

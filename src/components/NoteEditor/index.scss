@@ -36,26 +36,37 @@
    }
    $iconColor: #bdc3c7;
    &__pin {
-      float: right;
-      font-size: 30px;
-      -webkit-text-stroke-width: 1px;
-      -webkit-text-stroke-color: $iconColor;
-      color: rgba(0, 0, 0, 0);
-      padding: 0px 5px;
-      &:hover {
-         -webkit-text-stroke-width: 0px;
-         -webkit-text-stroke-color: $iconColor;
-         color: #fff;
+      svg {
+         color: rgba(0, 0, 0, 0);
+         padding-top: 2px;
+         transition: opacity 0.3s ease;
+         float: right;
+         font-size: 35px;
+
+         path {
+            stroke-width: 25px;
+            stroke: $iconColor;
+         }
+
+         &:hover {
+            path {
+               stroke-width: 0px;
+               color: #fff;
+            }
+         }
       }
 
       &--pined {
-         -webkit-text-stroke-width: 0px;
-         -webkit-text-stroke-color: $iconColor;
-         color: #fff;
+         path {
+            stroke-width: 0px !important;
+            color: #fff;
+         }
          &:hover {
-            -webkit-text-stroke-width: 1px;
-            -webkit-text-stroke-color: $iconColor;
-            color: rgba(0, 0, 0, 0);
+            path {
+               stroke-width: 25px !important;
+               stroke: $iconColor;
+               color: rgba(0, 0, 0, 0) !important;
+            }
          }
       }
    }
@@ -95,18 +106,31 @@
       display: flex;
       justify-content: space-between;
       font-size: 25px;
-   }
+      & div {
+         transition: opacity 0.3s ease;
+         svg {
+            text-align: center;
+            font-size: 30px;
+            color: rgba(0, 0, 0, 0);
+            padding: {
+               top: 8px;
+               right: 8px;
+            }
 
-   &__option,
-   .Palette {
-      padding: 0px 6px;
-      -webkit-text-stroke-width: 1px;
-      -webkit-text-stroke-color: $iconColor;
-      color: rgba(0, 0, 0, 0);
-      &:hover {
-         -webkit-text-stroke-width: 0px;
-         -webkit-text-stroke-color: $iconColor;
-         color: #fff;
+            path {
+               transition: color 0.2s ease, stroke-width 0.2s ease;
+               stroke: #bdc3c7;
+               stroke-width: 25px;
+            }
+
+            &:hover {
+               path {
+                  stroke: $iconColor;
+                  stroke-width: 0px;
+                  color: #fff;
+               }
+            }
+         }
       }
    }
 

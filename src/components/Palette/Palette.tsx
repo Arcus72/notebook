@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
-import { valueContext } from 'src/App';
+import React, { useContext, memo } from 'react';
+import { valueContext, Color } from 'src/components/NoteBook/NoteBook';
 import './index.scss';
-import { Color } from 'src/App';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPalette } from '@fortawesome/free-solid-svg-icons';
 type ChangeNoteColor = (color: string) => void;
 function Palette({ changeNoteColor, currentColor = '#28292c' }: { changeNoteColor: ChangeNoteColor; currentColor: string }) {
    console.log('Palette');
+
    const { colorList } = useContext(valueContext);
    const colorPalette = colorList.map(({ name, value }: Color, index: number) => (
       <span
@@ -17,11 +19,11 @@ function Palette({ changeNoteColor, currentColor = '#28292c' }: { changeNoteColo
    ));
    return (
       <span className='Palette'>
-         <i className='fas fa-palette'></i>
+         <FontAwesomeIcon className='Palette' icon={faPalette} />
 
          <div className='Palette__colorContainer'>{colorPalette}</div>
       </span>
    );
 }
 
-export default Palette;
+export default memo(Palette);
