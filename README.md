@@ -1,29 +1,43 @@
-# Notatnik
+# Notebook
 
-[![version](https://img.shields.io/badge/version-1.1.0-green.svg)]()
+This program allows to create notes
+👉 [Live Demo](https://arcus72-notebook.netlify.app/)
 
-## Usage
+---
+
+## Features
+
+-  Create notes
+-  Edit notes
+-  Group notes by color
+-  pinned notes
+
+## Installation
+
+First, install dependencies:
+
+```bash
+npm install
+```
+
+## Running the Server
+
+To start the development server:
+
+```bash
+npm run start
+```
+
+## Build
+
+To build the project for production:
+
+```bash
+npm run build
+```
+
+## Technologies Used
 
 -  ReactJs
 -  SCSS
 -  TypeScript
-
-## Server
-
-### To run server:
-
-```
-npm start
-```
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### To run server for build:
-
-```
-serve -s build
-```
